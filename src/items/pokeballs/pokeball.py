@@ -1,10 +1,8 @@
-from itemTemplate import ItemTemplate
-
-class PokeBall(ItemTemplate):
+class PokeBall:
     name = "PokeBall"
     description = ""
     function = "catch"
-    sprite = #path to sprite
+    sprite = ""#path to sprite
     pokemon = None
     bonus = 1.0
     def __init__(self):
@@ -20,19 +18,21 @@ class PokeBall(ItemTemplate):
 
         #this is the shake probabbility(shp). this determines shake by shake to see if a pokemon breaks out per shake
         shp = False
-        if(randint(0, 65536) < (65536*(255/mcr)**-0.1875)){
+        if(randint(0, 65536) < (65536*(255/mcr)**-0.1875)):
             
-            if(randint(0, 65536) < (65536*(255/mcr)**-0.1875)){
+            if(randint(0, 65536) < (65536*(255/mcr)**-0.1875)):
                 
-                if(randint(0, 65536) < (65536*(255/mcr)**-0.1875)){
+                if(randint(0, 65536) < (65536*(255/mcr)**-0.1875)):
                     self.pokemon = pokemon
-                }
-            } else{
+                
+            else:
+                pass
                 #pokemon breaks out. 
                 #play sound and animation
-            }
-        } else{
+        else:
+            pass
             #pokemon breaks out. 
             #play sound and animation
-        }
         
+    def showDescription(self):
+        print(description)

@@ -1,32 +1,38 @@
 from itemTemplate import ItemTemplate
 
 class PokeBall(ItemTemplate):
+    name = "PokeBall"
+    description = ""
+    function = "catch"
+    sprite = #path to sprite
     pokemon = None
-    rate = []
-    def __init__(self, name, description, function, sprite, rate):
-        super().__init__(name, description, funtion, sprite)
-        self.rate = rate
+    bonus = 1.0
+    def __init__(self):
+        pass
 
     def use(self, pokemon):
-        ballRoll = randint(self.rate[0], self.rate[1])
-        if(pokemon.ailment == "frozen") {
-            if(ballRoll + 25 >= pokemon.catchRate){
-                self.pokemon = pokemon
-                print("You have successfully caught the wild " + pokemon.name)
-            } else{
-                print("Failed to catch the wild " + pokemon.name.)
-            }
-        } elif(pokemon.ailment == "paralyzed" ||pokemon.ailment == "burned" ||pokemon.ailment == "poisoned"){
-            if(ballRoll + 12 >= pokemon.catchRate){
-                self.pokemon = pokemon
-                print("You have successfully caught the wild " + pokemon.name)
-            } else{
-                print("Failed to catch the wild " + pokemon.name.)
-            }
+        #critical capture is a thing that is not implemented. may or may not be put in
+        
+        #get ailment of pokemon and check to see what the bonus is for the ailment
+        ailmentBonus = 1.0
+        #this gets the in battle modified catch rate(mcr) for the pokemon based on its hp, ailment, and type of ball used
+        mcr = ((3*pokemon.maxHp-2*pokemon.currentHp)*pokemon.catchRate*self.bonus*ailmentBonus)/(3*pokemon.maxHp)
+
+        #this is the shake probabbility(shp). this determines shake by shake to see if a pokemon breaks out per shake
+        shp = False
+        if(randint(0, 65536) < (65536*(255/mcr)**-0.1875)){
             
-        } elif(pokemon.ailment == None){
-            if(ballRoll >= pokemon.catchRate){
-                self.pokemon = pokemon
-                print("You have successfully caught the wild " + pokemon.name)
+            if(randint(0, 65536) < (65536*(255/mcr)**-0.1875)){
+                
+                if(randint(0, 65536) < (65536*(255/mcr)**-0.1875)){
+                    self.pokemon = pokemon
+                }
+            } else{
+                #pokemon breaks out. 
+                #play sound and animation
             }
+        } else{
+            #pokemon breaks out. 
+            #play sound and animation
         }
+        

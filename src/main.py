@@ -2,16 +2,31 @@ import sys
 from os import path
 # ---- #
 
-import pygame
+import pygame as pygame
+from pygame.locals import *
 import pytmx
+import cv2
+import numpy as np
 
-# ---- #
+# --- #
+
+from strings import *
+from tiledmap import *
+from player import *
+# --- #
+
+map_x=0
+map_y=0
+
 class Game:
 
     def __init__(self):
         pygame.init()
-        self.screen= pygame.display.set_mode((700, 500))
-        pygame.display.set_caption("Pokemon Game")
+        size= [SCREEN_WIDTH,SCREEN_HEIGHT]
+        self.screen= pygame.display.set_mode(size)
+        self.screen.fill(BLACK)
+        pygame.display.set_caption(GAME_NAME)
+        self.clock= pygame.time.Clock()
         self.load_data()
 
     def load_data(self):
@@ -22,19 +37,32 @@ class Game:
         self.map= TiledMap(path.join(map_folder, 'betamap.tmx'))
         self.map_img= self.map.make_map()
         self.map_rect = self.map_img.get_rect()
+        self.clock= pygame.time.Clock()
 
     def new (self):
-        pass
+        # pass
+        self.player= Player()
+
 
     def run(self):
-        # Game loop.
         self.playing= True
         while self.playing:
-            self.dt: self.clock(FPS)/ 1000.0
+            self.dt= self.clock.tick(FPS)/ 1000.0
             self.events()
             self.update()
             self.draw()
 
+    def events(self):
+        # catch all basic events here.
+        for event in pygame.event.get():
+            if event.type== pygame.QUIT:
+                print("Bye bye...")
+                self.quit()
+            elif event.type== pygame.KEYDOWN:
+                # Key press event. Use this for pause later? Esc will also exit the game until we got a pause menu.
+                if event.key == pygame.K_ESCAPE:
+                    print("See ya!")
+                    self.quit()
     def quit(self):
         pygame.quit()
         sys.exit()
@@ -43,61 +71,30 @@ class Game:
         pass
 
     def draw(self):
-        # TODO: Add camera for drawing tiles.
-        pass
+        size= [SCREEN_WIDTH,SCREEN_HEIGHT]
+        screen= pygame.display.set_mode(size)
+        # Limit to 60 fps
+        clock= pygame.time.Clock()
+        clock.tick(FPS)
+        pygame.display.flip()
+        #  blit the screen?
 
-    def events(self):
-        # catch all basic events here.
-        for event in pygame.event.get():
-            if event.type== pygame.QUIT:
-                self.quit()
-            elif event.type== pygame.KEYDOWN:
-                # Key press event. Use this for pause later? Esc will also exit the game until we got a pause menu.
-                if event.key == pygame.K_ESCAPE:
-                    self.quit()
 
-    def show_start_screen(self):
-        pass
-
-    def show_go_screen(self):
-        pass
-
-class TiledMap:
-    """
-    Loads and renders Tiled maps.
-    """
-    def __init__(self, filename):
-        tm= pytmx.load_pygame(filename, pixelalpha= True)
-        # Width/Height is how many tiles the map is. The tilewidth/tileheight property is how many pixels the tiles are (Should always be 16 but just in case...)
-        self.width= tm.width * tm.tilewidth
-        self.height= tm.height * tm.tileheight
-        self.tmxdata= tm
-
-    def render(self, surface):
-        ti= self.tmxdata.get_tile_image_by_gid
-        for layer in self.tmxdata.visible_layers:
-            if isinstance(layer, pytmx.TiledTileLayer):
-                # We need co-ords and IDs.
-                for x, y, gid, in layer:
-                    tile= ti(gid)
-                    if tile:
-                        surface.blit(tile, (x * self.tmxdata.tilewidth, y * self.tmxdata.tileheight))
-
-    def make_map(self):
-        temp_surface= pygame.Surface((self.width, self.height))
-        self.render(temp_surface)
-        return temp_surface
 
 def main():
     """
-    Meat and potatoes of starting up the game.
+    Main program to jump start.
     """
-    game= Game()
-    game.show_start_screen()
-    while True:
+    pygame.init()
+    pygame.display.set_caption(GAME_NAME)
+    done= False
+    game=Game()
+    while not done:
         game.new()
         game.run()
-        game.show_go_screen()
 
-if __name__== "__main__":
+    # If done, quit.
+    pygame.quit()
+
+if __name__ == "__main__":
     main()

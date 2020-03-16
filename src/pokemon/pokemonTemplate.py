@@ -1,20 +1,20 @@
 class PokemonTemplate:
-    name = ""
-    nature = ""
-    level = 1
-    evolveLvl = 50
-    nextEvolution = {} # this will be the name of the next evolution.
-    currentExp = 0
-    totalExp = 0
-    height = 0
-    weight = 0
-    catchRate = 0
-    stats = {"hp": 0, "attack": 0, "defense": 0, "spAttack": 0, "spDefense": 0, "speed": 0}
-    baseStats = {"hp": 0, "attack": 0, "defense": 0, "spAttack": 0, "spDefense": 0, "speed": 0}
-    sprite = ""
-    moves = {}
-    ailments = []
-    learnableMoves = {}
+    def __init__(self, name, nature, level=1, evolveLvl=1, currentExp, totalExp, height=0, weight=0, stats={}, baseStats={}, currentHp, moves, ailments, catchRate, sprite):
+        self.name = name
+        self.nature = nature
+        self.level = level
+        self.evolveLvl = evolveLvl
+        self.currentExp = currentExp
+        self.totalExp = totalExp
+        self.height = 0
+        self.weight = 0
+        self.stats = stats
+        self.baseStats = baseStats
+        self.currentHp = currentHp
+        self.moves = moves
+        self.ailments = ailments
+        self.catchRate = catchRate
+        self.sprite = sprite
 
 
     def addAilment(self, ailment):

@@ -4,7 +4,7 @@ import os as path
 
 import pygame as pygame
 from pygame.locals import *
-import pytmx.util_pygame 
+import pytmx.util_pygame
 #import load_pygame
 import cv2
 import numpy as np
@@ -38,7 +38,7 @@ class Game:
         return temp_surface
 
     def load_data(self):
-        game_folder = path.dirname(__file__)[0:-3]
+        game_folder = path.dirname(__file__)
         map_folder = path.join(game_folder, '../assets/maps')
         self.map= TiledMap(path.join(map_folder, 'betamap.tmx'))
         self.height = self.map.height

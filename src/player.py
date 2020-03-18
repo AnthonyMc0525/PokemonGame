@@ -22,7 +22,8 @@ class Player(pygame.sprite.Sprite):
     def __init__ (self, x=5, y=5):
         pygame.sprite.Sprite.__init__(self)
         self.images=[]
-        img= pygame.image.load(path.join('images', 'trainer_m.png')).convert()
+        game_folder = path.dirname(__file__)[0:-3]
+        img= pygame.image.load(path.join(game_folder, 'assets/images/trainer_m.png'))
         self.images.append(img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()

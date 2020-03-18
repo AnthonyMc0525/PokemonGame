@@ -4,7 +4,8 @@ import os as path
 
 import pygame as pygame
 from pygame.locals import *
-import pytmx.util_pygame import load_pygame
+import pytmx.util_pygame 
+#import load_pygame
 import cv2
 import numpy as np
 
@@ -14,15 +15,15 @@ from strings import *
 from tiledmap import *
 from player import *
 # --- #
-
+#
 map_x=0
 map_y=0
-
+#
 class Game:
-
+#
     def __init__(self):
         pygame.init()
-        size= [SCREEN_WIDTH,SCREEN_HEIGHT]
+        size= [SCREEN_WIDTH, SCREEN_HEIGHT]
         self.screen= pygame.display.set_mode(size)
         self.screen.fill(BLACK)
         pygame.display.set_caption(GAME_NAME)
@@ -38,21 +39,24 @@ class Game:
 
     def load_data(self):
         game_folder = path.dirname(__file__)[0:-3]
-        map_folder = path.join(game_folder, 'assets/maps')
+        map_folder = path.join(game_folder, '../assets/maps')
+        self.map= TiledMap(path.join(map_folder, 'betamap.tmx'))
+        self.height = self.map.height
+        self.width = self.map.width
+        self.map_img = self.map.make_map()
+        self.map_rect = self.map_img.get_rect()
         img_folder = path.join(game_folder, 'assets/images')
         item_folder = path.join(game_folder, 'assets/items')
         print("Loading " + game_folder)
         print("Map folder: " + map_folder)
         print("Item folder: " +item_folder)
         print("Image folder: "+ img_folder)
-        # self.map= TiledMap(path.join(map_folder, 'betamap.tmx'))
 
         # https://pytmx.readthedocs.io/en/latest/
         # Help please god
-        tmxdata= load_pygame(path.join(map_folder, 'betamap.tmx')
-        self.clock= pygame.time.Clock()
-
-    def new (self):
+#        tmxdata= load_pygame(path.join(map_folder, 'betamap.tmx')
+#
+    def new(self):
         # pass
         self.player= Player()
         print("Player spawned.")
@@ -87,8 +91,9 @@ class Game:
         pass
 
     def draw(self):
-        size= [SCREEN_WIDTH,SCREEN_HEIGHT]
+        size= [self.width,self.height]
         screen= pygame.display.set_mode(size)
+        self.screen.blit(self.map_img, (0, 0))
         # Limit to 60 fps
         clock= pygame.time.Clock()
         clock.tick(FPS)

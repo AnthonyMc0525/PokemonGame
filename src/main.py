@@ -1,5 +1,6 @@
 import sys
-import os as path
+import os
+import random
 # ---- #
 
 import pygame as pygame
@@ -13,7 +14,8 @@ import numpy as np
 
 from strings import *
 from tiledmap import *
-from player import *
+# from player import *
+from sprites import *
 # --- #
 #
 map_x=0
@@ -23,12 +25,15 @@ class Game:
 #
     def __init__(self):
         pygame.init()
+        pygame.mixer.init()
         size= [SCREEN_WIDTH, SCREEN_HEIGHT]
         self.screen= pygame.display.set_mode(size)
         self.screen.fill(BLACK)
         pygame.display.set_caption(GAME_NAME)
         self.clock= pygame.time.Clock()
+        self.running= True
         self.load_data()
+        self.all_sprites= pygame.sprite.Group()
         print("Initialised game.")
 
 
@@ -38,29 +43,26 @@ class Game:
         return temp_surface
 
     def load_data(self):
-        game_folder = path.dirname(__file__)
-        map_folder = path.join(game_folder, '../assets/maps')
-        self.map= TiledMap(path.join(map_folder, 'betamap.tmx'))
+        game_folder = os.path.dirname(__file__)
+        map_folder = os.path.join(game_folder, '../assets/maps')
+        self.map= TiledMap(os.path.join(map_folder, 'betamap.tmx'))
         self.height = self.map.height
         self.width = self.map.width
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
-        img_folder = path.join(game_folder, 'assets/images')
-        item_folder = path.join(game_folder, 'assets/items')
+        img_folder = os.path.join(game_folder, 'assets/images')
+        item_folder = os.path.join(game_folder, 'assets/items')
         print("Loading " + game_folder)
         print("Map folder: " + map_folder)
         print("Item folder: " +item_folder)
         print("Image folder: "+ img_folder)
 
-        # https://pytmx.readthedocs.io/en/latest/
-        # Help please god
-#        tmxdata= load_pygame(path.join(map_folder, 'betamap.tmx')
-#
     def new(self):
-        # pass
-        self.player= Player()
-        print("Player spawned.")
+        self.run()
 
+    def draw_player(self):
+        self.player= Player()
+        self.all_sprites.add(self.player)
 
     def run(self):
         print("Game is running...")
@@ -79,7 +81,7 @@ class Game:
                 self.quit()
             elif event.type== pygame.KEYDOWN:
                 # Key press event. Use this for pause later? Esc will also exit the game until we got a pause menu.
-                print("Detected key press.")
+                # print("Detected key press.")
                 if event.key == pygame.K_ESCAPE:
                     print("See ya!")
                     self.quit()
@@ -88,12 +90,15 @@ class Game:
         sys.exit()
 
     def update(self):
-        pass
+        self.all_sprites.update()
 
     def draw(self):
         size= [self.width,self.height]
         screen= pygame.display.set_mode(size)
         self.screen.blit(self.map_img, (0, 0))
+        # pygame.draw.circle(self.screen, WHITE, [30, 30], 30)
+        # Make a function to draw the player sprite here!!
+        self.draw_player()
         # Limit to 60 fps
         clock= pygame.time.Clock()
         clock.tick(FPS)
@@ -110,6 +115,9 @@ def main():
     pygame.display.set_caption(GAME_NAME)
     done= False
     game=Game()
+    size= [SCREEN_WIDTH, SCREEN_HEIGHT]
+    screen= pygame.display.set_mode(size)
+
     while not done:
         game.new()
         game.run()

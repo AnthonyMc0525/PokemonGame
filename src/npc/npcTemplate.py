@@ -1,11 +1,11 @@
 import pygame
 
 class NpcTemplate():
-    def __init__(self, name, sprite, dialog, npcType):
+    def __init__(self, name, sprite, dialog, item):
         self.name = name
         self.sprite = sprite
         self.dialog = dialog
-        self.npcType = npcType #types will either be nonCombat or Combat depending if the npc is a trainer/elite four or just a normal npc
+        self.item = item
         self.font = pygame.font.SysFont(None, 25)
 
     def runDialog(self, screen):
@@ -24,3 +24,13 @@ class NpcTemplate():
                             break
                         else:
                             continue
+
+    def giveItem(self, player):
+        if self.item != None:
+            if self.item.name in player.inventory:
+                for key, value in player.inventory.items()
+                    if key == self.item.name:
+                        player.inventory[key] = value + 1
+            else:
+                player.inventory[self.item.name] = 1
+

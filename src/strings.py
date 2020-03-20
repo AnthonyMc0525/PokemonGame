@@ -1,10 +1,10 @@
 import pygame as pygame
-from tiledmap import * 
+from tiledmap import *
 
 # For now, the settings will go here too.
 SCREEN_HEIGHT = 700
 SCREEN_WIDTH = 700
-FPS=60
+FPS=30
 
 # Colours
 BLACK= (0,0,0)

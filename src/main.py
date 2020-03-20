@@ -33,7 +33,10 @@ class Game:
         self.clock= pygame.time.Clock()
         self.running= True
         self.load_data()
-        self.all_sprites= pygame.sprite.Group()
+        self.player= Player()
+        self.all_sprites= []
+        self.all_sprites.append(self.player.rect)
+        # self.all_sprites= pygame.sprite.Group()
         print("Initialised game.")
 
 
@@ -60,9 +63,9 @@ class Game:
     def new(self):
         self.run()
 
+
     def draw_player(self):
-        self.player= Player()
-        self.all_sprites.add(self.player)
+        pass
 
     def run(self):
         print("Game is running...")
@@ -72,6 +75,7 @@ class Game:
             self.events()
             self.update()
             self.draw()
+            self.player.update()
 
     def events(self):
         # catch all basic events here.
@@ -90,15 +94,21 @@ class Game:
         sys.exit()
 
     def update(self):
-        self.all_sprites.update()
+        # self.all_sprites.update()
+        pass
 
     def draw(self):
         size= [self.width,self.height]
         screen= pygame.display.set_mode(size)
         self.screen.blit(self.map_img, (0, 0))
+        self.screen.blit(self.player.image, (self.player.vx, self.player.vy))
+
         # pygame.draw.circle(self.screen, WHITE, [30, 30], 30)
         # Make a function to draw the player sprite here!!
-        self.draw_player()
+        # if not self.all_sprites.has(self.player):
+        #     self.player= Player()
+        #     self.all_sprites.append(self.player)
+        #     print("Spawned player?")
         # Limit to 60 fps
         clock= pygame.time.Clock()
         clock.tick(FPS)

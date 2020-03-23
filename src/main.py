@@ -116,6 +116,18 @@ class Game:
         #  blit the screen?
 
 
+    def intro(self):
+        intro = True
+        while intro:
+            for event in pygame.event.get():
+                print(event)
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+            self.screen.fill((0, 0, 0))
+            pygame.draw.rect(self.screen, [255, 0, 0], [100, 100, 100, 200])
+            pygame.display.update()
+            self.clock.tick(15)
 
 def main():
     """
@@ -129,6 +141,7 @@ def main():
     screen= pygame.display.set_mode(size)
 
     while not done:
+        game.intro()
         game.new()
         game.run()
 

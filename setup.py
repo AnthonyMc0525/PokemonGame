@@ -9,7 +9,6 @@ setup(
 	install_requires=[
 		'pygame',
         'pytmx',
-        'opencv-python'
 	],
 	extras_require={
 

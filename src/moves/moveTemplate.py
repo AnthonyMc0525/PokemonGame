@@ -1,5 +1,5 @@
 def MoveTemplate:
-    def __init__(self, name, moveType, pwr, acc, pp, targets description):
+    def __init__(self, name, moveType, pwr, acc, pp, targets, description):
         self.name = name
         self.type = moveType
         self.pwr = pwr

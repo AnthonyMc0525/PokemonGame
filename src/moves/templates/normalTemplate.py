@@ -1,6 +1,6 @@
 from moveTemplate import MoveTemplate
 
-def WaterTemplate(MoveTemplate):
+def NormalTemplate(MoveTemplate):
     def __init__(self, name, moveType, pwr, acc, pp, targets, description):
         super().__init__(name, moveType, pwr, acc, pp, targets, description)
 

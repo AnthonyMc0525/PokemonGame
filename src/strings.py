@@ -25,3 +25,4 @@ NPC_DOM= "Dominik"
 NPC_DAN= "Danny"
 # Spell it wrong
 NPC_BRI= "Brain"
+PLAYER_HIT_RECT = pygame.Rect(0, 0, 16, 32)

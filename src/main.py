@@ -7,7 +7,6 @@ import pygame as pygame
 from pygame.locals import *
 import pytmx.util_pygame
 #import load_pygame
-import cv2
 import numpy as np
 
 # --- #
@@ -33,7 +32,7 @@ class Game:
         self.clock= pygame.time.Clock()
         self.running= True
         self.load_data()
-        self.player= Player()
+        self.player= Player(self, 0, 0)
         self.all_sprites= []
         self.all_sprites.append(self.player.rect)
         # self.all_sprites= pygame.sprite.Group()
@@ -61,6 +60,18 @@ class Game:
         print("Image folder: "+ img_folder)
 
     def new(self):
+        self.walls= pygame.sprite.Group()
+        self.npcs= pygame.sprite.Group()
+        for tile_object in self.map.tmxdata.objects:
+            if tile_object.name=="player":
+                # Player spawn point in the map.
+                self.player= Player(self, tile_object.x, tile_object.y)
+                print(self.player)
+            if tile_object.name== "wall":
+                Obstacle(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width)
+            if tile_object.type=="NPC":
+                NPC(self, tile_object.x, tile_object.y)
+                print(self.npcs)
         self.run()
 
 

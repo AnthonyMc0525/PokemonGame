@@ -6,16 +6,51 @@ from os import path
 
 from strings import *
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self):
+vector= pygame.math.Vector2
+
+from tiledmap import collide_hit_rect
+
+
+class Obstacle(pygame.sprite.Sprite):
+    def __init__(self, game, x,y,w,h):
+        self.walls = pg.sprite.Group()
+        self.groups= self.walls
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game= game
+        self.rect= pygame.Rect(x,y,w,h)
+        self.hit_rect= self.rect
+        self.x= x
+        self.y= y
+        self.rect.x= x
+        self.rect.y= y
+        self.pos= vector(x,y)
+
+class NPC(pygame.sprite.Sprite):
+    def __init__(self,game,x,y):
+        self.groups= game.all_sprites, game.npcs
         pygame.sprite.Sprite.__init__(self)
+        self.image= pygame.Surface((16,32))
+        self.image.fill(BLACK)
+        self.pos= vector(x,y)
+        self.vx=x
+        self.vy=y
+
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.walls = pg.sprite.Group()
         self.image= pygame.Surface((16,32), pygame.SRCALPHA)
         self.image.fill(BLACK)
         self.image.set_alpha(128)
         self.imagesdown=[]
+        self.game= game
         self.imagesright=[]
         self.imagesleft=[]
         self.imagesup=[]
+        self.pos= vector(x,y)
+        self.vel= vector(0,0)
+        self.hit_rect= PLAYER_HIT_RECT
         self.gender="m"
         game_folder = path.dirname(__file__)[0:-3]
         self.imagesdown.append(pygame.image.load(path.join(game_folder, 'assets/images/trainer_'+ self.gender +'.png')).convert_alpha()) # 0
@@ -42,10 +77,28 @@ class Player(pygame.sprite.Sprite):
         self.index= 0
         self.image = self.imagesdown[self.index]
         self.rect= self.image.get_rect()
-        self.vx=23 *16
-        self.vy=9 *16
+        self.vx=x
+        self.vy=y
         self.speed=5
         self.dir="down"
+
+    def wall_collide(self, dir):
+        if dir== 'left':
+            hits= pygame.sprite.spritecollide(self, self.walls, False, collide_hit_rect)
+            if hits:
+                if hits[0].rect.centerx > sprite.hit.centerx:
+                    sprite.pos.x= hits[0].rect.left - sprite.hit_rect.width/2
+                if hits[0].rect.centerx < sprite.hit.centerx:
+                    sprite.pos.x= hits[0].rect.right + sprite.hit_rect.width/2
+                sprite.hit_rect.centerx = sprite.pos.x
+        if dir=='up':
+            hits= pygame.sprite.spritecollide(self, self.game.walls, False, collide_hit_rect)
+            if hits:
+                if hits[0].rect.centery > sprite.hit.centery:
+                    sprite.pos.x= hits[0].rect.top - sprite.hit_rect.height/2
+                if hits[0].rect.centery < sprite.hit.centery:
+                    sprite.pos.y= hits[0].rect.bottom + sprite.hit_rect.height/2
+                sprite.hit_rect.centery = sprite.pos.y
 
     def quit(self):
         pygame.quit()
@@ -53,6 +106,10 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         # self.vx=0
+        self.hit_rect.centerx= self.pos.x
+        self.wall_collide('left')
+        self.hit_rect.centery= self.pos.y
+        self.wall_collide('up')
         keys= pygame.key.get_pressed()
         for event in pygame.event.get():
             if event.type== pygame.KEYDOWN:
@@ -86,6 +143,8 @@ class Player(pygame.sprite.Sprite):
                     if self.index >= len(self.imagesdown):
                         self.index=0
                     self.image=self.imagesdown[self.index]
+                # print ("Facing: " + self.dir)
+                self.pos= vector(self.vx, self.vy)
 
             # elif event.type == pygame.KEYUP:
             #     self.index=0

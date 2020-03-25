@@ -1,7 +1,7 @@
 from moveTemplate import MoveTemplate
 
 def GrassTemplate(MoveTemplate):
-    def __init__(self, name=" Petal Blizzard", moveType="grass", pwr=90, acc=1, pp=15, targets=2, description="Petal Blizzard does damage to all adjacent Pokémon, including allies.")
+    def __init__(self, name, moveType="grass", pwr, acc, pp, targets, description)
     super().__init__(name, moveType, pwr, acc, pp, targets,  description)
 
     def use(self, user, target):

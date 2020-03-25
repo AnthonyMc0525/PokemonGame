@@ -66,12 +66,10 @@ class Game:
             if tile_object.name=="player":
                 # Player spawn point in the map.
                 self.player= Player(self, tile_object.x, tile_object.y)
-                print(self.player)
             if tile_object.name== "wall":
                 Obstacle(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width)
             if tile_object.type=="NPC":
                 NPC(self, tile_object.x, tile_object.y)
-                print(self.npcs)
         self.run()
 
 

@@ -8,18 +8,19 @@ size= [700,700]
 screen= pygame.display.set_mode(size)
 
 default_sprite= pygame.image.load(path.join(game_folder, 'assets/images/trainer_f.png')).convert_alpha()
-class NpcTemplate():
-    def __init__(self, x, y, name, sprite=default_sprite, dialog='Hello', item=None):
+class NpcTemplate(pygame.sprite.Sprite):
+    def __init__(self, game, x, y, name, sprite=default_sprite, dialog='Hello'):
         self.name = name
-        self.vx= x
+        self.game=game
+        self.vx=x
         self.vy= y
         self.image= pygame.Surface((16,32), pygame.SRCALPHA)
         self.sprite = sprite
         self.rect= self.image.get_rect()
         self.dialog = dialog
-        self.item = item
         self.font = pygame.font.SysFont(None, 25)
-        self.images=[]
+        default_sprite= pygame.image.load(path.join(game_folder, 'assets/images/'+ self.name+'_npc.png')).convert_alpha()
+        self.image= default_sprite
 
         # self.game.npcs
 

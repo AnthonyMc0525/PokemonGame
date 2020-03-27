@@ -75,7 +75,8 @@ class Game:
                 Obstacle(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width)
             if tile_object.type=="NPC":
                 print("Spawning NPC " + tile_object.name)
-                self.npcs.append(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.name))
+                npc_name= tile_object.name
+                self.npcs.append(NpcTemplate(self, tile_object.x, tile_object.y, npc_name.lower()))
                 # print("NPC Sprite " + str(new_npc.name) + ": " + str(new_npc.sprite))
                 # self.all_sprites.append(self.player)
         self.run()
@@ -118,11 +119,10 @@ class Game:
         size= [self.width,self.height]
         screen= pygame.display.set_mode(size)
         self.screen.blit(self.map_img, (0, 0))
-        self.screen.blit(self.player.image, (self.player.vx, self.player.vy))
         for char in self.npcs:
-            print("x: " + str(char.vx) + " | y: " + str(char.vy) + "\n")
-            # pygame.draw.rect(self.screen, BLACK, (char.x, char.y, 16, 32))
-
+            # pygame.draw.rect(self.screen, BLACK, (char.vx, char.vy, 16, 32))
+            self.screen.blit(char.image, (char.vx, char.vy))
+        self.screen.blit(self.player.image, (self.player.vx, self.player.vy))
         # Limit to 60 fps
         clock= pygame.time.Clock()
         clock.tick(FPS)

@@ -1,12 +1,27 @@
 import pygame
+from os import path
+game_folder = path.dirname(__file__)[0:-3]
 
+from strings import *
+
+size= [700,700]
+screen= pygame.display.set_mode(size)
+
+default_sprite= pygame.image.load(path.join(game_folder, 'assets/images/trainer_f.png')).convert_alpha()
 class NpcTemplate():
-    def __init__(self, name, sprite, dialog, item):
+    def __init__(self, x, y, name, sprite=default_sprite, dialog='Hello', item=None):
         self.name = name
+        self.vx= x
+        self.vy= y
+        self.image= pygame.Surface((16,32), pygame.SRCALPHA)
         self.sprite = sprite
+        self.rect= self.image.get_rect()
         self.dialog = dialog
         self.item = item
         self.font = pygame.font.SysFont(None, 25)
+        self.images=[]
+
+        # self.game.npcs
 
     def runDialog(self, screen):
         done = False
@@ -25,12 +40,11 @@ class NpcTemplate():
                         else:
                             continue
 
-    def giveItem(self, player):
-        if self.item != None:
-            if self.item.name in player.inventory:
-                for key, value in player.inventory.items()
-                    if key == self.item.name:
-                        player.inventory[key] = value + 1
-            else:
-                player.inventory[self.item.name] = 1
-
+    # def giveItem(self, player):
+    #     if self.item != None:
+    #         if self.item.name in player.inventory:
+    #             for key, value in player.inventory.items()
+    #                 if key == self.item.name:
+    #                     player.inventory[key] = value + 1
+    #         else:
+    #             player.inventory[self.item.name] = 1

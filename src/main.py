@@ -1,6 +1,7 @@
 import sys
 import os
 import random
+
 # ---- #
 
 import pygame as pygame
@@ -15,6 +16,8 @@ from strings import *
 from tiledmap import *
 # from player import *
 from sprites import *
+from npcTemplate import *
+from battleTypeNpc import *
 # --- #
 #
 map_x=0
@@ -34,7 +37,9 @@ class Game:
         self.load_data()
         self.player= Player(self, 0, 0)
         self.all_sprites= []
+        self.npcs=[]
         self.all_sprites.append(self.player.rect)
+        print("Player rect: " + str(self.player.rect))
         # self.all_sprites= pygame.sprite.Group()
         print("Initialised game.")
 
@@ -61,7 +66,7 @@ class Game:
 
     def new(self):
         self.walls= pygame.sprite.Group()
-        self.npcs= pygame.sprite.Group()
+        # self.npcs= pygame.sprite.Group()
         for tile_object in self.map.tmxdata.objects:
             if tile_object.name=="player":
                 # Player spawn point in the map.
@@ -69,7 +74,10 @@ class Game:
             if tile_object.name== "wall":
                 Obstacle(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width)
             if tile_object.type=="NPC":
-                NPC(self, tile_object.x, tile_object.y)
+                print("Spawning NPC " + tile_object.name)
+                self.npcs.append(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.name))
+                # print("NPC Sprite " + str(new_npc.name) + ": " + str(new_npc.sprite))
+                # self.all_sprites.append(self.player)
         self.run()
 
 
@@ -111,13 +119,10 @@ class Game:
         screen= pygame.display.set_mode(size)
         self.screen.blit(self.map_img, (0, 0))
         self.screen.blit(self.player.image, (self.player.vx, self.player.vy))
+        for char in self.npcs:
+            print("x: " + str(char.vx) + " | y: " + str(char.vy) + "\n")
+            # pygame.draw.rect(self.screen, BLACK, (char.x, char.y, 16, 32))
 
-        # pygame.draw.circle(self.screen, WHITE, [30, 30], 30)
-        # Make a function to draw the player sprite here!!
-        # if not self.all_sprites.has(self.player):
-        #     self.player= Player()
-        #     self.all_sprites.append(self.player)
-        #     print("Spawned player?")
         # Limit to 60 fps
         clock= pygame.time.Clock()
         clock.tick(FPS)

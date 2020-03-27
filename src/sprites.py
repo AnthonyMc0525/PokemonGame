@@ -25,16 +25,6 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect.y= y
         self.pos= vector(x,y)
 
-class NPC(pygame.sprite.Sprite):
-    def __init__(self,game,x,y):
-        self.groups= game.all_sprites, game.npcs
-        pygame.sprite.Sprite.__init__(self)
-        self.image= pygame.Surface((16,32))
-        self.image.fill(BLACK)
-        self.pos= vector(x,y)
-        self.vx=x
-        self.vy=y
-
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, x, y):

@@ -1,18 +1,18 @@
-from moveTemplate import MoveTemplate
+from PokemonGame.src.moves.moveTemplate import MoveTemplate
 
 def FlyingTemplate(MoveTemplate):
     def __init__(self, name, moveType, pwr, acc, pp, targets, description):
         super().__init__(name, moveType, pwr, acc, pp, targets, description)
 
     def use(self, user, target):
-        if user.type = "flying":
+        if user.type == "flying":
             stab = 1.5
         else:
             stab = 1
 
         if target.type == "grass" or target.type == "fighting" or target.type == "bug":
             eff = 2.0
-        else if target.type == "electric" or target.type == "ice" or target.type == "rock":
+        elif target.type == "electric" or target.type == "ice" or target.type == "rock":
             eff = .5
         else:
             eff = 1

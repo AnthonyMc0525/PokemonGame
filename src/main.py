@@ -147,13 +147,7 @@ class Game:
         #  Test for dialogue here for some reason? Draw dialogue here like it was commented before
 
 
-
-        # dialogue_box= pygame.Surface((300,100), pygame.SRCALPHA)
-        # dialogue_box.set_alpha(230)
-        # dialogue_box.fill(BLACK)
-        # self.screen.blit(dialogue_box, (0,0))
-
-        self.dialogue('Hello World')
+        # self.dialogue('Hello World')
         # pygame.draw.rect(self.screen, BLACK, (0, SCREEN_HEIGHT/6, SCREEN_WIDTH, SCREEN_HEIGHT/6))
 
         # Draw dialogue??

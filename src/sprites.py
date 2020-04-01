@@ -73,38 +73,6 @@ class Player(pygame.sprite.Sprite):
         self.dir="down"
         self.font = pygame.font.SysFont(None, 25)
 
-    def wall_collide(self, dir):
-        if dir== 'left':
-            hits= pygame.sprite.spritecollide(self, self.walls, False, collide_hit_rect)
-            if hits:
-                if hits[0].rect.centerx > sprite.hit.centerx:
-                    sprite.pos.x= hits[0].rect.left - sprite.hit_rect.width/2
-                if hits[0].rect.centerx < sprite.hit.centerx:
-                    sprite.pos.x= hits[0].rect.right + sprite.hit_rect.width/2
-                sprite.hit_rect.centerx = sprite.pos.x
-        if dir=='up':
-            hits= pygame.sprite.spritecollide(self, self.game.walls, False, collide_hit_rect)
-            if hits:
-                if hits[0].rect.centery > sprite.hit.centery:
-                    sprite.pos.x= hits[0].rect.top - sprite.hit_rect.height/2
-                if hits[0].rect.centery < sprite.hit.centery:
-                    sprite.pos.y= hits[0].rect.bottom + sprite.hit_rect.height/2
-                sprite.hit_rect.centery = sprite.pos.y
-
-    def dialogue(self, event, text):
-        done= False
-        print(text)
-        while not done:
-            if event.type== pygame.KEYDOWN:
-                if event.key== pygame.K_ESCAPE:
-                    done=True
-                    # self.quit()
-            elif event.type== pygame.QUIT:
-                done=True
-                # self.quit()
-        if done== True:
-            print("REEE")
-            pygame.draw.rect(self.game.screen, BLACK, (10, 10, 50, 50))
 
     def quit(self):
         pygame.quit()
@@ -113,42 +81,46 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, event):
         # self.vx=0
-        self.hit_rect.centerx= self.pos.x
-        self.wall_collide('left')
-        self.hit_rect.centery= self.pos.y
-        self.wall_collide('up')
         if event.type== pygame.KEYDOWN:
+                # Max right: 538
+                # Max left: 3
+                # Max up: -1
+                # Max Down: 529
 
             if event.key== pygame.K_LEFT or event.key == pygame.K_a:
-                self.dir="left"
-                self.vx -= self.speed
-                self.index+= 1
-                if self.index >= len(self.imagesleft):
-                    self.index=0
-                self.image= pygame.transform.flip(self.imagesleft[self.index], True, False)
+                if self.vx > MAX_LEFT and self.vx <= MAX_RIGHT:
+                    self.dir="left"
+                    self.vx -= self.speed
+                    self.index+= 1
+                    if self.index >= len(self.imagesleft):
+                        self.index=0
+                    self.image= pygame.transform.flip(self.imagesleft[self.index], True, False)
 
             elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                self.dir="right"
-                self.vx += self.speed
-                self.index+= 1
-                if self.index >= len(self.imagesright):
-                    self.index=0
-                self.image=self.imagesright[self.index]
+                if self.vx >= MAX_LEFT and self.vx < MAX_RIGHT:
+                    self.dir="right"
+                    self.vx += self.speed
+                    self.index+= 1
+                    if self.index >= len(self.imagesright):
+                        self.index=0
+                    self.image=self.imagesright[self.index]
 
             elif event.key == pygame.K_UP or event.key == pygame.K_w:
-                self.dir="up"
-                self.vy -= self.speed
-                self.index+= 1
-                if self.index >= len(self.imagesup):
-                    self.index=0
-                self.image=self.imagesup[self.index]
+                if self.vy > MAX_UP and self.vy <= MAX_DOWN:
+                    self.dir="up"
+                    self.vy -= self.speed
+                    self.index+= 1
+                    if self.index >= len(self.imagesup):
+                        self.index=0
+                    self.image=self.imagesup[self.index]
             elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                self.dir="down"
-                self.vy += self.speed
-                self.index+= 1
-                if self.index >= len(self.imagesdown):
-                    self.index=0
-                self.image=self.imagesdown[self.index]
+                if self.vy >= MAX_UP and self.vy < MAX_DOWN:
+                    self.dir="down"
+                    self.vy += self.speed
+                    self.index+= 1
+                    if self.index >= len(self.imagesdown):
+                        self.index=0
+                    self.image=self.imagesdown[self.index]
                 # elif event.key == pygame.K_SPACE:
                 #     print("Hello??")
                 #     self.dialogue("HEY")
@@ -156,7 +128,6 @@ class Player(pygame.sprite.Sprite):
 
 
                 # print ("Facing: " + self.dir)
-                self.pos= vector(self.vx, self.vy)
 
             # elif event.type == pygame.KEYUP:
             #     self.index=0
@@ -168,6 +139,8 @@ class Player(pygame.sprite.Sprite):
             #         self.image= self.imagesdown[self.index]
             elif event.type== pygame.QUIT:
                 self.quit()
+            self.pos= vector(self.vx, self.vy)
+
 
         self.rect.x += self.vx
         self.rect.y += self.vy

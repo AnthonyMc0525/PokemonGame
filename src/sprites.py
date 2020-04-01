@@ -71,6 +71,7 @@ class Player(pygame.sprite.Sprite):
         self.vy=y
         self.speed=5
         self.dir="down"
+        self.font = pygame.font.SysFont(None, 25)
 
     def wall_collide(self, dir):
         if dir== 'left':
@@ -90,49 +91,70 @@ class Player(pygame.sprite.Sprite):
                     sprite.pos.y= hits[0].rect.bottom + sprite.hit_rect.height/2
                 sprite.hit_rect.centery = sprite.pos.y
 
+    def dialogue(self, event, text):
+        done= False
+        print(text)
+        while not done:
+            if event.type== pygame.KEYDOWN:
+                if event.key== pygame.K_ESCAPE:
+                    done=True
+                    # self.quit()
+            elif event.type== pygame.QUIT:
+                done=True
+                # self.quit()
+        if done== True:
+            print("REEE")
+            pygame.draw.rect(self.game.screen, BLACK, (10, 10, 50, 50))
+
     def quit(self):
         pygame.quit()
         sys.exit()
 
-    def update(self):
+
+    def update(self, event):
         # self.vx=0
         self.hit_rect.centerx= self.pos.x
         self.wall_collide('left')
         self.hit_rect.centery= self.pos.y
         self.wall_collide('up')
-        keys= pygame.key.get_pressed()
-        for event in pygame.event.get():
-            if event.type== pygame.KEYDOWN:
-                if event.key== pygame.K_LEFT:
-                    self.dir="left"
-                    self.vx -= self.speed
-                    self.index+= 1
-                    if self.index >= len(self.imagesleft):
-                        self.index=0
-                    self.image= pygame.transform.flip(self.imagesleft[self.index], True, False)
+        if event.type== pygame.KEYDOWN:
 
-                elif event.key == pygame.K_RIGHT:
-                    self.dir="right"
-                    self.vx += self.speed
-                    self.index+= 1
-                    if self.index >= len(self.imagesright):
-                        self.index=0
-                    self.image=self.imagesright[self.index]
+            if event.key== pygame.K_LEFT or event.key == pygame.K_a:
+                self.dir="left"
+                self.vx -= self.speed
+                self.index+= 1
+                if self.index >= len(self.imagesleft):
+                    self.index=0
+                self.image= pygame.transform.flip(self.imagesleft[self.index], True, False)
 
-                elif event.key == pygame.K_UP:
-                    self.dir="up"
-                    self.vy -= self.speed
-                    self.index+= 1
-                    if self.index >= len(self.imagesup):
-                        self.index=0
-                    self.image=self.imagesup[self.index]
-                elif event.key == pygame.K_DOWN:
-                    self.dir="down"
-                    self.vy += self.speed
-                    self.index+= 1
-                    if self.index >= len(self.imagesdown):
-                        self.index=0
-                    self.image=self.imagesdown[self.index]
+            elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
+                self.dir="right"
+                self.vx += self.speed
+                self.index+= 1
+                if self.index >= len(self.imagesright):
+                    self.index=0
+                self.image=self.imagesright[self.index]
+
+            elif event.key == pygame.K_UP or event.key == pygame.K_w:
+                self.dir="up"
+                self.vy -= self.speed
+                self.index+= 1
+                if self.index >= len(self.imagesup):
+                    self.index=0
+                self.image=self.imagesup[self.index]
+            elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                self.dir="down"
+                self.vy += self.speed
+                self.index+= 1
+                if self.index >= len(self.imagesdown):
+                    self.index=0
+                self.image=self.imagesdown[self.index]
+                # elif event.key == pygame.K_SPACE:
+                #     print("Hello??")
+                #     self.dialogue("HEY")
+
+
+
                 # print ("Facing: " + self.dir)
                 self.pos= vector(self.vx, self.vy)
 

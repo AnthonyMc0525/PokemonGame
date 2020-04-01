@@ -38,6 +38,7 @@ class Game:
         self.player= Player(self, 0, 0)
         self.all_sprites= []
         self.npcs=[]
+        self.pressed= pygame.key.get_pressed()
         self.all_sprites.append(self.player.rect)
         print("Player rect: " + str(self.player.rect))
         # self.all_sprites= pygame.sprite.Group()
@@ -93,7 +94,7 @@ class Game:
             self.events()
             self.update()
             self.draw()
-            self.player.update()
+
 
     def events(self):
         # catch all basic events here.
@@ -102,11 +103,17 @@ class Game:
                 print("Bye bye...")
                 self.quit()
             elif event.type== pygame.KEYDOWN:
+                self.player.update(event)
                 # Key press event. Use this for pause later? Esc will also exit the game until we got a pause menu.
                 # print("Detected key press.")
                 if event.key == pygame.K_ESCAPE:
                     print("See ya!")
                     self.quit()
+                elif event.key == pygame.K_SPACE:
+                    print("AAAAAA")
+                    pygame.draw.rect(self.screen, BLACK, (10, 10, 50, 50))
+                    # self.player.dialogue(event, "TEST TEXT")
+
     def quit(self):
         pygame.quit()
         sys.exit()
@@ -115,14 +122,42 @@ class Game:
         # self.all_sprites.update()
         pass
 
+    def dialogue (self, dial):
+        screen= self.screen
+
+        blackBarRectPos = (5, screen.get_width()-110) # For now.
+        blackBarRectSize= (screen.get_width()-10, 100)
+        pygame.draw.rect(screen, BLACK, pygame.Rect(blackBarRectPos, blackBarRectSize))
+        font = pygame.font.Font('freesansbold.ttf', 12)
+        text = font.render(dial, True, WHITE, BLACK)
+        textRect = text.get_rect()
+        X = screen.get_width()
+        Y = screen.get_height() + 375
+        textRect.center = (X // 2, Y // 2)
+        screen.blit(text, textRect)
+
     def draw(self):
         size= [self.width,self.height]
         screen= pygame.display.set_mode(size)
         self.screen.blit(self.map_img, (0, 0))
         for char in self.npcs:
-            # pygame.draw.rect(self.screen, BLACK, (char.vx, char.vy, 16, 32))
             self.screen.blit(char.image, (char.vx, char.vy))
         self.screen.blit(self.player.image, (self.player.vx, self.player.vy))
+
+        #  Test for dialogue here for some reason? Draw dialogue here like it was commented before
+
+
+
+        # dialogue_box= pygame.Surface((300,100), pygame.SRCALPHA)
+        # dialogue_box.set_alpha(230)
+        # dialogue_box.fill(BLACK)
+        # self.screen.blit(dialogue_box, (0,0))
+
+        self.dialogue('Hello World')
+        # pygame.draw.rect(self.screen, BLACK, (0, SCREEN_HEIGHT/6, SCREEN_WIDTH, SCREEN_HEIGHT/6))
+
+        # Draw dialogue??
+
         # Limit to 60 fps
         clock= pygame.time.Clock()
         clock.tick(FPS)
@@ -145,7 +180,6 @@ def main():
     while not done:
         game.new()
         game.run()
-
     # If done, quit.
     pygame.quit()
 

@@ -1,4 +1,4 @@
-from dragonTemplate import DragonTemplate
+from . import dragonTemplate
 import random
 
 def DoubleEdge(DragonTemplate):

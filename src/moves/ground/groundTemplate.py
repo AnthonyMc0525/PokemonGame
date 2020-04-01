@@ -1,4 +1,4 @@
-from moveTemplate import MoveTemplate
+import moves.moveTemplate
 
 def GroundTemplate(MoveTemplate):
     def __init__(self, name, moveType, pwr, acc, pp, targets, description)

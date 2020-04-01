@@ -1,4 +1,4 @@
-from moveTemplate import MoveTemplate
+import moves.moveTemplate
 
 def DarkTemplate(MoveTemplate):
     def __init(self, name, moveType, pwr, acc, pp, targets, description):

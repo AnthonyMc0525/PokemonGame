@@ -1,4 +1,4 @@
-def MoveTemplate:
+class MoveTemplate:
     def __init__(self, name, moveType, pwr, acc, pp, targets, description):
         self.name = name
         self.type = moveType

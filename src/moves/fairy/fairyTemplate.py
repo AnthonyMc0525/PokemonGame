@@ -1,4 +1,4 @@
-from moveTemplate import MoveTemplate
+import moves.moveTemplate
 
 def FairyTemplate(MoveTemplate):
     def __init__(self, name, moveType, pwr, acc, pp, targets, description):

@@ -1,4 +1,4 @@
-from moveTemplate import MoveTemplate
+import moves.moveTemplate
 
 def FireTemplate(MoveTemplate):
     def __init__(self, name, moveType="fire", pwr, acc, pp, targets, burn, description):

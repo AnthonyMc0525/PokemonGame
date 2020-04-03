@@ -1,4 +1,4 @@
-from normalTemplate import NormalTemplate
+from . import normalTemplate
 import math
 
 def DoubleEdge(NormalTemplate):

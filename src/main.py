@@ -21,11 +21,14 @@ from sprites import *
 map_x=0
 map_y=0
 #
+pygame.mixer.init()
+pygame.mixer.music.load("sounds/idle.wav")
+battleMusic = pygame.mixer.Sound("sounds/battle.wav")
+#
 class Game:
 #
     def __init__(self):
         pygame.init()
-        pygame.mixer.init()
         size= [SCREEN_WIDTH, SCREEN_HEIGHT]
         self.screen= pygame.display.set_mode(size)
         self.screen.fill(BLACK)
@@ -68,6 +71,7 @@ class Game:
         pass
 
     def run(self):
+        pygame.mixer.music.play(-1)
         print("Game is running...")
         self.playing= True
         while self.playing:
@@ -89,6 +93,9 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     print("See ya!")
                     self.quit()
+                elif event.key == pygame.K_b:
+                    print("'b' key pressed")
+                    self.battle()
     def quit(self):
         pygame.quit()
         sys.exit()
@@ -114,6 +121,20 @@ class Game:
         clock.tick(FPS)
         pygame.display.flip()
         #  blit the screen?
+
+    def battle(self):
+        pygame.mixer.music.pause()
+        pygame.mixer.Sound.play(battleMusic)
+        end = False
+        while not end:
+            for event in pygame.event.get():
+                if event.type== pygame.KEYDOWN:
+                    # Key press event. Use this for pause later? Esc will also exit the game until we got a pause menu.
+                    # print("Detected key press.")
+                    if event.key == pygame.K_ESCAPE:
+                        end = True
+                        pygame.mixer.pause()
+                        self.run()
 
 
 

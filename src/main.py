@@ -96,7 +96,9 @@ class Game:
                     self.quit()
                 elif event.key == pygame.K_b:
                     print("'b' key pressed")
-                    self.battle()
+                    batt= Battle(self)
+                    batt.main()
+                    # self.battle()
     def quit(self):
         pygame.quit()
         sys.exit()

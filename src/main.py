@@ -7,7 +7,7 @@ import pygame as pygame
 from pygame.locals import *
 import pytmx.util_pygame
 #import load_pygame
-import cv2
+# import cv2
 import numpy as np
 
 # --- #
@@ -36,6 +36,7 @@ class Game:
         self.player= Player()
         self.all_sprites= []
         self.all_sprites.append(self.player.rect)
+        self.battling= False
         # self.all_sprites= pygame.sprite.Group()
         print("Initialised game.")
 
@@ -128,7 +129,7 @@ def main():
     size= [SCREEN_WIDTH, SCREEN_HEIGHT]
     screen= pygame.display.set_mode(size)
 
-    while not done:
+    while not done and not game.battling:
         game.new()
         game.run()
 

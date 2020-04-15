@@ -51,41 +51,39 @@ class Player(pygame.sprite.Sprite):
         pygame.quit()
         sys.exit()
 
-    def update(self):
+    def update(self, event):
         # self.vx=0
-        keys= pygame.key.get_pressed()
-        for event in pygame.event.get():
-            if event.type== pygame.KEYDOWN:
-                if event.key== pygame.K_LEFT:
-                    self.dir="left"
-                    self.vx -= self.speed
-                    self.index+= 1
-                    if self.index >= len(self.imagesleft):
-                        self.index=0
-                    self.image= pygame.transform.flip(self.imagesleft[self.index], True, False)
+        if event.type== pygame.KEYDOWN:
+            if event.key== pygame.K_LEFT:
+                self.dir="left"
+                self.vx -= self.speed
+                self.index+= 1
+                if self.index >= len(self.imagesleft):
+                    self.index=0
+                self.image= pygame.transform.flip(self.imagesleft[self.index], True, False)
 
-                elif event.key == pygame.K_RIGHT:
-                    self.dir="right"
-                    self.vx += self.speed
-                    self.index+= 1
-                    if self.index >= len(self.imagesright):
-                        self.index=0
-                    self.image=self.imagesright[self.index]
+            elif event.key == pygame.K_RIGHT:
+                self.dir="right"
+                self.vx += self.speed
+                self.index+= 1
+                if self.index >= len(self.imagesright):
+                    self.index=0
+                self.image=self.imagesright[self.index]
 
-                elif event.key == pygame.K_UP:
-                    self.dir="up"
-                    self.vy -= self.speed
-                    self.index+= 1
-                    if self.index >= len(self.imagesup):
-                        self.index=0
-                    self.image=self.imagesup[self.index]
-                elif event.key == pygame.K_DOWN:
-                    self.dir="down"
-                    self.vy += self.speed
-                    self.index+= 1
-                    if self.index >= len(self.imagesdown):
-                        self.index=0
-                    self.image=self.imagesdown[self.index]
+            elif event.key == pygame.K_UP:
+                self.dir="up"
+                self.vy -= self.speed
+                self.index+= 1
+                if self.index >= len(self.imagesup):
+                    self.index=0
+                self.image=self.imagesup[self.index]
+            elif event.key == pygame.K_DOWN:
+                self.dir="down"
+                self.vy += self.speed
+                self.index+= 1
+                if self.index >= len(self.imagesdown):
+                    self.index=0
+                self.image=self.imagesdown[self.index]
 
             # elif event.type == pygame.KEYUP:
             #     self.index=0

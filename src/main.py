@@ -16,6 +16,7 @@ from strings import *
 from tiledmap import *
 # from player import *
 from sprites import *
+from battle import *
 # --- #
 #
 map_x=0
@@ -80,7 +81,7 @@ class Game:
             self.events()
             self.update()
             self.draw()
-            self.player.update()
+            # self.player.update()
 
     def events(self):
         # catch all basic events here.
@@ -95,10 +96,14 @@ class Game:
                     print("See ya!")
                     self.quit()
                 elif event.key == pygame.K_b:
-                    print("'b' key pressed")
-                    batt= Battle(self)
-                    batt.main()
-                    # self.battle()
+                    if self.battling== False:
+                        pygame.mixer.music.fadeout(1000)
+                        print("'b' key pressed")
+                        batt= Battle(self)
+                        batt.main()
+                else:
+                    if self.battling== False:
+                        self.player.update(event)
     def quit(self):
         pygame.quit()
         sys.exit()
@@ -108,22 +113,23 @@ class Game:
         pass
 
     def draw(self):
-        size= [self.width,self.height]
-        screen= pygame.display.set_mode(size)
-        self.screen.blit(self.map_img, (0, 0))
-        self.screen.blit(self.player.image, (self.player.vx, self.player.vy))
+        if self.battling== False:
+            size= [self.width,self.height]
+            screen= pygame.display.set_mode(size)
+            self.screen.blit(self.map_img, (0, 0))
+            self.screen.blit(self.player.image, (self.player.vx, self.player.vy))
 
-        # pygame.draw.circle(self.screen, WHITE, [30, 30], 30)
-        # Make a function to draw the player sprite here!!
-        # if not self.all_sprites.has(self.player):
-        #     self.player= Player()
-        #     self.all_sprites.append(self.player)
-        #     print("Spawned player?")
-        # Limit to 60 fps
-        clock= pygame.time.Clock()
-        clock.tick(FPS)
-        pygame.display.flip()
-        #  blit the screen?
+            # pygame.draw.circle(self.screen, WHITE, [30, 30], 30)
+            # Make a function to draw the player sprite here!!
+            # if not self.all_sprites.has(self.player):
+            #     self.player= Player()
+            #     self.all_sprites.append(self.player)
+            #     print("Spawned player?")
+            # Limit to 60 fps
+            clock= pygame.time.Clock()
+            clock.tick(FPS)
+            pygame.display.flip()
+            #  blit the screen?
 
     def battle(self):
         pygame.mixer.music.pause()

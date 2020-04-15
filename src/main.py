@@ -38,6 +38,7 @@ class Game:
         self.player= Player(self, 0, 0)
         self.all_sprites= []
         self.npcs=[]
+        self.collide_key=''
         self.pressed= pygame.key.get_pressed()
         self.all_sprites.append(self.player.rect)
         print("Player rect: " + str(self.player.rect))
@@ -103,7 +104,58 @@ class Game:
                 print("Bye bye...")
                 self.quit()
             elif event.type== pygame.KEYDOWN:
+                #  Check collision with NPCs?
+                collide=None
+
+                # I'm so tired of collision. -Danny.
+
+                # if event.key != self.collide_key:
+                #     for char in self.npcs:
+                #         # print(char.hitbox[0]) # x
+                #         npc_x= char.hitbox[0]
+                #         npc_y= char.hitbox[1]
+                #         npc_width= char.hitbox[2]
+                #         npc_height= char.hitbox[3]
+                #         player_dir= self.player.dir
+                #         player_x= self.player.vx
+                #         player_y= self.player.vy
+                #         player_spd= self.player.speed
+                #         #  If player dir is the same they just tried, then break the loop?
+                #
+                #         #  Check direction?
+                #         if player_dir=="left" or player_dir=="up":
+                #             player_x= player_x - 16
+                #             if (player_x - player_spd >= npc_x and player_x - player_spd <= npc_x + npc_width) and player_y == npc_y:
+                #                 print("First direction: " + str(self.collide_key) + "\nSecond direction: " + str(event.key) + "\n----------")
+                #                 self.collide_key= event.key
+                #                 if self.collide_key != event.key:
+                #                     # Means they've moved somewhere else.
+                #                     self.collide_key= ''
+                #                     collide=False
+                #                 elif self.collide_key== event.key:
+                #                     # Means they're trying to go the same direction.
+                #                     collide=True
+                #             else:
+                #                 collide=False
+                #         elif player_dir== "right" or player_dir=="down":
+                #             #  and npc_y <= player_y <= npc_y+ npc_height
+                #             player_x= player_x + 8
+                #             if (player_x + player_spd >= npc_x and player_x + player_spd <= npc_x + npc_width) and player_y == npc_y:
+                #                 print("First direction: " + str(self.collide_key) + "\nSecond direction: " + str(event.key) + "\n----------")
+                #                 self.collide_key= event.key
+                #                 if self.collide_key != event.key:
+                #                     # Means they've moved somewhere else.
+                #                     self.collide_key= ''
+                #                     collide=False
+                #                 elif self.collide_key== event.key:
+                #                     # Means they're trying to go the same direction.
+                #                     collide=True
+                #             else:
+                #                 collide=False
+                # if (collide== False or collide==None):
                 self.player.update(event)
+
+
                 # Key press event. Use this for pause later? Esc will also exit the game until we got a pause menu.
                 # print("Detected key press.")
                 if event.key == pygame.K_ESCAPE:
@@ -113,6 +165,7 @@ class Game:
                     print("AAAAAA")
                     pygame.draw.rect(self.screen, BLACK, (10, 10, 50, 50))
                     # self.player.dialogue(event, "TEST TEXT")
+
 
     def quit(self):
         pygame.quit()

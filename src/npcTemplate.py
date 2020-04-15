@@ -14,6 +14,7 @@ class NpcTemplate(pygame.sprite.Sprite):
         self.game=game
         self.vx=x
         self.vy= y
+        self.hitbox=(x, y, 16, 32)
         self.image= pygame.Surface((16,32), pygame.SRCALPHA)
         self.sprite = sprite
         self.rect= self.image.get_rect()
@@ -23,6 +24,9 @@ class NpcTemplate(pygame.sprite.Sprite):
         self.image= default_sprite
 
         # self.game.npcs
+
+    def hit(self):
+        print("hit")
 
     def dialogue (self, text):
         screen= self.game.screen

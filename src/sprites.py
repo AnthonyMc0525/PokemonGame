@@ -29,7 +29,7 @@ class Obstacle(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.walls = pg.sprite.Group()
+        self.hitbox=(x, y, 16, 32)
         self.image= pygame.Surface((16,32), pygame.SRCALPHA)
         self.image.fill(BLACK)
         self.image.set_alpha(128)
@@ -40,7 +40,6 @@ class Player(pygame.sprite.Sprite):
         self.imagesup=[]
         self.pos= vector(x,y)
         self.vel= vector(0,0)
-        self.hit_rect= PLAYER_HIT_RECT
         self.gender="m"
         game_folder = path.dirname(__file__)[0:-3]
         self.imagesdown.append(pygame.image.load(path.join(game_folder, 'assets/images/trainer_'+ self.gender +'.png')).convert_alpha()) # 0
@@ -69,7 +68,7 @@ class Player(pygame.sprite.Sprite):
         self.rect= self.image.get_rect()
         self.vx=x
         self.vy=y
-        self.speed=5
+        self.speed=4
         self.dir="down"
         self.font = pygame.font.SysFont(None, 25)
 
@@ -121,26 +120,11 @@ class Player(pygame.sprite.Sprite):
                     if self.index >= len(self.imagesdown):
                         self.index=0
                     self.image=self.imagesdown[self.index]
-                # elif event.key == pygame.K_SPACE:
-                #     print("Hello??")
-                #     self.dialogue("HEY")
 
-
-
-                # print ("Facing: " + self.dir)
-
-            # elif event.type == pygame.KEYUP:
-            #     self.index=0
-            #     if self.dir=="down":
-            #         self.image= self.imagesdown[self.index]
-            #     elif self.dir=="right":
-            #         self.image= self.imagesright[self.index]
-            #     else:
-            #         self.image= self.imagesdown[self.index]
             elif event.type== pygame.QUIT:
                 self.quit()
+            self.hitbox=(self.vx+20, self.vy, 16, 32)
             self.pos= vector(self.vx, self.vy)
-
 
         self.rect.x += self.vx
         self.rect.y += self.vy

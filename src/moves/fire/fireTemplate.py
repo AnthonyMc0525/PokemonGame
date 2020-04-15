@@ -6,14 +6,14 @@ def FireTemplate(MoveTemplate):
         self.burn = burn
 
     def use(self, user, target):
-        if user.type = "fire":
+        if user.type == "fire":
             stab = 1.5
         else:
             stab = 1
 
         if target.type == "grass" or target.type == "ice" or target.type == "bug" or target.type == "steel":
             eff = 2.0
-        else if target.type == "water" or target.type == "ground" or target.type == "rock": 
+        elif target.type == "water" or target.type == "ground" or target.type == "rock": 
             eff = .5
         else:
             eff = 1

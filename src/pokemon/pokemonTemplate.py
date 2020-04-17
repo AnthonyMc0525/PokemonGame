@@ -1,8 +1,6 @@
 class PokemonTemplate:
     def __init__(self, name, currentHp, moves, ailments, stats={}):
         self.name = name
-        self.height = 0
-        self.weight = 0
         self.stats = stats
         self.currentHp = currentHp
         self.moves = moves

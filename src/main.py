@@ -23,7 +23,6 @@ map_x=0
 map_y=0
 #
 pygame.mixer.init()
-pygame.mixer.music.load("sounds/idle.wav")
 battleMusic = pygame.mixer.Sound("sounds/battle.wav")
 #
 class Game:
@@ -41,6 +40,7 @@ class Game:
         self.all_sprites= []
         self.all_sprites.append(self.player.rect)
         self.battling= False
+        self.music= pygame.mixer.music.load("sounds/idle.wav")
         # self.all_sprites= pygame.sprite.Group()
         print("Initialised game.")
 
@@ -73,7 +73,7 @@ class Game:
         pass
 
     def run(self):
-        pygame.mixer.music.play(-1)
+        # pygame.mixer.music.play(-1)
         print("Game is running...")
         self.playing= True
         while self.playing:

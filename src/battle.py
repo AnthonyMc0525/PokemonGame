@@ -1,6 +1,5 @@
 import sys
 from os import path
-
 import pygame
 
 import main
@@ -17,14 +16,17 @@ class Battle():
         self.done= False
         self.game= game
         # Remove later
-        self.player_poke.append('charizard')
-        self.enemy_poke.append('bulbasaur')
+        self.player_poke.append(pokemon.Charizard())
+        self.enemy_poke.append(pokemon.Bulbasaur())
         self.music= pygame.mixer.Sound("sounds/battle.wav")
 
     def quit(self):
         pygame.mixer.pause()
         pygame.quit()
         sys.exit()
+
+    def draw(self):
+        pass
 
     def events(self):
         if self.game.battling== True:
@@ -41,7 +43,8 @@ class Battle():
                         self.game.battling=False
                         self.done= True
                         pygame.mixer.Sound.fadeout(self.music,1000)
-                        main.main()
+                        self.game.run()
+                        # main.main()
 
     def main(self):
         self.game.battling=True
@@ -50,14 +53,16 @@ class Battle():
         screen.fill(BLACK)
         game_folder = path.dirname(__file__)[0:-3]
 
-        play_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ self.player_poke[0] +'.png')).convert_alpha()
-        play_poke= pygame.transform.flip(play_poke, True, False)
-        enemy_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ self.enemy_poke[0] +'.png')).convert_alpha()
-        play_rect= play_poke.get_rect()
-        ene_rect= enemy_poke.get_rect()
-
-        screen.blit(play_poke, (50, 100))
-        screen.blit(enemy_poke, (380, 100))
+        print(self.player_poke + "-----------")
+        print(self.enemy_poke)
+        # play_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ self.player_poke[0] +'.png')).convert_alpha()
+        # play_poke= pygame.transform.flip(play_poke, True, False)
+        # enemy_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ self.enemy_poke[0] +'.png')).convert_alpha()
+        # play_rect= play_poke.get_rect()
+        # ene_rect= enemy_poke.get_rect()
+        #
+        # screen.blit(play_poke, (50, 100))
+        # screen.blit(enemy_poke, (380, 100))
         pygame.display.flip()
         pygame.mixer.music.pause()
         pygame.mixer.Sound.play(self.music)

@@ -17,8 +17,8 @@ class Battle():
         self.done= False
         self.game= game
         # Remove later
-        self.player_poke.append(charizard.Charizard())
-        self.enemy_poke.append(meganium.Meganium())
+        #self.player_poke.append(charizard.Charizard())
+        #self.enemy_poke.append(meganium.Meganium())
         self.music= pygame.mixer.Sound("sounds/battle.wav")
 
     def quit(self):
@@ -78,10 +78,8 @@ class Battle():
     def battle(self): #self, player, enemy
         p = randint(0, 11)
         e = randint(0, 11)
-
         pokeP = self.getPokemon(p)
         pokeE = self.getPokemon(e)
-
 
         self.player_poke.append(pokeP.name)
         self.enemy_poke.append(pokeE.name)
@@ -94,11 +92,9 @@ class Battle():
         screen= pygame.display.set_mode(size)
         screen.fill(BLACK)
         game_folder = path.dirname(__file__)[0:-3]
-        print(self.player_poke[0].name)
-        print(self.enemy_poke[0].name)
 
-        pp_name= self.player_poke[0].name
-        pe_name= self.enemy_poke[0].name
+        pp_name= self.player_poke[0]
+        pe_name= self.enemy_poke[0]
 
         play_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pp_name.lower() +'.png')).convert_alpha()
         play_poke= pygame.transform.flip(play_poke, True, False)

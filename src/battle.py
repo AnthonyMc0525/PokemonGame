@@ -2,7 +2,6 @@ import sys
 from os import path
 import pygame
 
-import main
 from pokemon import blastoise, blaziken, charizard, empoleon, feraligatr, infernape, meganium, sceptile, swampert, torterra, typhlosion, venusaur
 from pokemon.pokemonTemplate import PokemonTemplate
 from strings import *
@@ -17,8 +16,8 @@ class Battle():
         self.done= False
         self.game= game
         # Remove later
-        self.player_poke.append(pokemon.Charizard())
-        self.enemy_poke.append(pokemon.Bulbasaur())
+        self.player_poke.append(charizard.Charizard())
+        self.enemy_poke.append(meganium.Meganium())
         self.music= pygame.mixer.Sound("sounds/battle.wav")
 
     def quit(self):
@@ -45,7 +44,6 @@ class Battle():
                         self.done= True
                         pygame.mixer.Sound.fadeout(self.music,1000)
                         self.game.run()
-                        # main.main()
 
     def getPokemon(num):
         rand_pokemon = 0
@@ -90,32 +88,27 @@ class Battle():
         screen= pygame.display.set_mode(size)
         screen.fill(BLACK)
         game_folder = path.dirname(__file__)[0:-3]
+        print(self.player_poke[0])
+        print(self.enemy_poke[0])
 
-<<<<<<< HEAD
-        print(self.player_poke + "-----------")
-        print(self.enemy_poke)
-        # play_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ self.player_poke[0] +'.png')).convert_alpha()
+        # pp_name= self.player_poke[0].name
+        # pe_name= self.enemy_poke[0].name
+        #
+        # play_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pp_name.lower() +'.png')).convert_alpha()
         # play_poke= pygame.transform.flip(play_poke, True, False)
-        # enemy_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ self.enemy_poke[0] +'.png')).convert_alpha()
-        # play_rect= play_poke.get_rect()
-        # ene_rect= enemy_poke.get_rect()
+        # enemy_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pe_name.lower() +'.png')).convert_alpha()
+        #
         #
         # screen.blit(play_poke, (50, 100))
         # screen.blit(enemy_poke, (380, 100))
-=======
-        play_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ self.player_poke[0] +'.png')).convert_alpha()
-        play_poke= pygame.transform.flip(play_poke, True, False)
-        enemy_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ self.enemy_poke[0] +'.png')).convert_alpha()
-        play_rect= play_poke.get_rect()
-        ene_rect= enemy_poke.get_rect()
-        self.battle()
 
-        screen.blit(play_poke, (50, 100))
-        screen.blit(enemy_poke, (380, 100))
->>>>>>> b7ee564be3397e9b02cef0c7657ec7de6aaf7ca5
+        # self.battle()
+
+        # screen.blit(play_poke, (50, 100))
+        # screen.blit(enemy_poke, (380, 100))
         pygame.display.flip()
         pygame.mixer.music.pause()
-        pygame.mixer.Sound.play(self.music)
+        # pygame.mixer.Sound.play(self.music)
         while self.done== False:
             self.events()
 

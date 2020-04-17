@@ -108,7 +108,7 @@ class Battle():
         screen.blit(play_poke, (50, 100))
         screen.blit(enemy_poke, (380, 100))
 
-        self.battle(self.player_poke[0], self.enemy_poke[0])
+        self.battle()
 
         pygame.display.flip()
         pygame.mixer.music.pause()

@@ -1,5 +1,5 @@
 class PokemonTemplate:
-    def __init__(self, name, stats={}, currentHp, moves, ailments, sprite):
+    def __init__(self, name, currentHp, moves, ailments, stats={}):
         self.name = name
         self.height = 0
         self.weight = 0

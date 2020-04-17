@@ -2,6 +2,7 @@ import sys
 from os import path
 
 import pygame
+from random import randint
 
 import main
 from pokemon import blastoise, blaziken, charizard, empoleon, feraligatr, infernape, meganium, sceptile, swampert, torterra, typhlosion, venusaur
@@ -44,44 +45,49 @@ class Battle():
                         pygame.mixer.Sound.fadeout(self.music,1000)
                         main.main()
 
-    def getPokemon(num):
+    def getPokemon(self, num):
         rand_pokemon = 0
         if num == 0:
-            rand_pokemon = Blastoise()
+            rand_pokemon = blastoise.Blastoise()
         elif num == 1:
-            pass
+            rand_pokemon = blaziken.Blaziken()
         elif num == 2:
-            pass
+            rand_pokemon = charizard.Charizard()
         elif num == 3:
-            pass
+            rand_pokemon = empoleon.Empoleon()
         elif num == 4:
-            pass
+            rand_pokemon = feraligatr.Feraligatr()
         elif num == 5:
-            pass
+            rand_pokemon = infernape.Infernape()
         elif num == 6:
-            pass
+            rand_pokemon = meganium.Meganium()
         elif num == 7:
-            pass
+            rand_pokemon = sceptile.Sceptile()
         elif num == 8:
-            pass
+            rand_pokemon = swampert.Swampert()
         elif num == 9:
-            pass
+            rand_pokemon = torterra.Torterra()
         elif num == 10:
-            pass
+            rand_pokemon = typhlosion.Typhlosion()
         elif num == 11:
-            pass
+            rand_pokemon = venusaur.Venusaur()
 
-    def battle(self, player, enemy):
+        return rand_pokemon
+
+    def battle(self): #self, player, enemy
         p = randint(0, 11)
         e = randint(0, 11)
+        
+        pokeP = self.getPokemon(p)
+        pokeE = self.getPokemon(e)
+        
 
-        player_pokemon = pokemon[p] 
-        enemy_pokemon = pokemon[e]
-        self.player_poke.append(player_pokemon.name)
-        self.enemy_poke.append(enemy_pokemon.name)
+        self.player_poke.append(pokeP.name)
+        self.enemy_poke.append(pokeE.name)
 
 
     def main(self):
+        self.battle()
         self.game.battling=True
         size= [self.game.width,self.game.height]
         screen= pygame.display.set_mode(size)

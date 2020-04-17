@@ -1,6 +1,7 @@
 import sys
 from os import path
 import pygame
+import random
 
 from pokemon import blastoise, blaziken, charizard, empoleon, feraligatr, infernape, meganium, sceptile, swampert, torterra, typhlosion, venusaur
 from pokemon.pokemonTemplate import PokemonTemplate
@@ -88,27 +89,25 @@ class Battle():
         screen= pygame.display.set_mode(size)
         screen.fill(BLACK)
         game_folder = path.dirname(__file__)[0:-3]
-        print(self.player_poke[0])
-        print(self.enemy_poke[0])
+        print(self.player_poke[0].name)
+        print(self.enemy_poke[0].name)
 
-        # pp_name= self.player_poke[0].name
-        # pe_name= self.enemy_poke[0].name
-        #
-        # play_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pp_name.lower() +'.png')).convert_alpha()
-        # play_poke= pygame.transform.flip(play_poke, True, False)
-        # enemy_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pe_name.lower() +'.png')).convert_alpha()
-        #
-        #
-        # screen.blit(play_poke, (50, 100))
-        # screen.blit(enemy_poke, (380, 100))
+        pp_name= self.player_poke[0].name
+        pe_name= self.enemy_poke[0].name
 
-        # self.battle()
+        play_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pp_name.lower() +'.png')).convert_alpha()
+        play_poke= pygame.transform.flip(play_poke, True, False)
+        enemy_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pe_name.lower() +'.png')).convert_alpha()
 
-        # screen.blit(play_poke, (50, 100))
-        # screen.blit(enemy_poke, (380, 100))
+
+        screen.blit(play_poke, (50, 100))
+        screen.blit(enemy_poke, (380, 100))
+
+        self.battle(self.player_poke[0], self.enemy_poke[0])
+
         pygame.display.flip()
         pygame.mixer.music.pause()
-        # pygame.mixer.Sound.play(self.music)
+        pygame.mixer.Sound.play(self.music)
         while self.done== False:
             self.events()
 

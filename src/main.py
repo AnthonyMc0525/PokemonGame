@@ -73,7 +73,7 @@ class Game:
         pass
 
     def run(self):
-        # pygame.mixer.music.play(-1)
+        pygame.mixer.music.play(-1)
         print("Game is running...")
         self.playing= True
         while self.playing:

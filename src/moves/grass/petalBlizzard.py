@@ -1,4 +1,4 @@
-from grassTemplate import GrassTemplate
+from . import grassTemplate
 
 def PetalBlizzard(GrassTemplate):
     def __init__(self, name="petal blizzard", moveType="grass", pwr=90, acc=1, pp=15, targets=2, description="The user stirs up a violent petal blizzard and attacks everything around it."):

@@ -1,4 +1,4 @@
-from grassTemplate import GrassTemplate
+from . import grassTemplate
 
 def PetalDance(GrassTemplate):
     def __init__(self, name="petal dance", moveType="grass", pwr=120, acc=1, pp=10, targets=1, description="The user attacks the target by scattering petals for two to three turns. The user then becomes confused."):

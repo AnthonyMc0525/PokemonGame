@@ -29,6 +29,23 @@ class Battle():
         sys.exit()
 
     def draw(self, screen):
+        screen.fill(BLACK)
+        game_folder = path.dirname(__file__)[0:-3]
+
+        pp_name= self.player_poke[0].name
+        pe_name= self.enemy_poke[0].name
+
+        play_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pp_name.lower() +'.png')).convert_alpha()
+        enemy_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pe_name.lower() +'.png')).convert_alpha()
+        enemy_poke= pygame.transform.flip(enemy_poke, True, False)
+        platform_img= pygame.image.load(path.join(game_folder, 'assets/images/platform.png')).convert_alpha()
+
+        screen.blit(platform_img, (50, 115))
+        screen.blit(play_poke, (50, 100))
+        screen.blit(platform_img, (380, 115))
+        screen.blit(enemy_poke, (380, 100))
+
+
         self.enemy_poke[0].currentHp= self.enemy_poke[0].stats['hp']
         self.player_poke[0].currentHp= self.player_poke[0].stats['hp']
         player_name= str(self.player_poke[0].name).capitalize()
@@ -39,21 +56,31 @@ class Battle():
         text_p_name = self.font.render(player_name, True, WHITE, BLACK)
         text_e = self.font.render(enemy_hp, True, WHITE, BLACK)
         text_e_name = self.font.render(enemy_name, True, WHITE, BLACK)
+        prompt = self.font.render(BATTLE_PROMPT, True, WHITE, BLACK)
         textRect_p = text_p.get_rect()
         textRect_p_name = text_p_name.get_rect()
         textRect_e = text_e.get_rect()
         textRect_e_name = text_e_name.get_rect()
+        textRect_prompt= prompt.get_rect()
         X_p = 50
         X_e = 500
+        X = screen.get_width()
         Y = screen.get_height()
         textRect_p.center = (X_p, Y // 2 - 200)
         textRect_p_name.center = (X_p, Y // 2 - 250)
         textRect_e.center = (X_e, Y // 2 - 200)
         textRect_e_name.center = (X_e, Y // 2 - 250)
+        textRect_prompt.center= (X//2, Y//2)
         screen.blit(text_p, textRect_p)
         screen.blit(text_p_name, textRect_p_name)
         screen.blit(text_e, textRect_e)
         screen.blit(text_e_name, textRect_e_name)
+        # pygame.draw.rect(screen, [red, blue, green], [left, top, width, height], filled)
+        pygame.draw.rect(screen, RED, (25, 300, 200, 100 ))
+        pygame.draw.rect(screen, RED, (25, 425, 200, 100 ))
+        pygame.draw.rect(screen, RED, (325, 300, 200, 100 ))
+        pygame.draw.rect(screen, RED, (325, 425, 200, 100 ))
+        screen.blit(prompt, textRect_prompt)
 
     def events(self):
         if self.game.battling== True:
@@ -113,23 +140,11 @@ class Battle():
 
 
     def main(self):
-        self.battle()
-        self.game.battling=True
         size= [self.game.width,self.game.height]
         screen= pygame.display.set_mode(size)
-        screen.fill(BLACK)
-        game_folder = path.dirname(__file__)[0:-3]
+        self.battle()
+        self.game.battling=True
 
-        pp_name= self.player_poke[0].name
-        pe_name= self.enemy_poke[0].name
-
-        play_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pp_name.lower() +'.png')).convert_alpha()
-        play_poke= pygame.transform.flip(play_poke, True, False)
-        enemy_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pe_name.lower() +'.png')).convert_alpha()
-
-
-        screen.blit(play_poke, (50, 100))
-        screen.blit(enemy_poke, (380, 100))
 
         self.battle()
 

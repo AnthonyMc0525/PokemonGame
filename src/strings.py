@@ -25,3 +25,5 @@ NPC_DOM= "Dominik"
 NPC_DAN= "Danny"
 # Spell it wrong
 NPC_BRI= "Brain"
+
+BATTLE_PROMPT= "What will you do?"

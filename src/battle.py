@@ -5,8 +5,10 @@ from random import randint
 
 from pokemon import blastoise, blaziken, charizard, empoleon, feraligatr, infernape, meganium, sceptile, swampert, torterra, typhlosion, venusaur
 from pokemon.pokemonTemplate import PokemonTemplate
+from moves.grass import grassTemplate, magicalLeaf, petalBlizzard, petalDance, razorLeaf, seedBomb, solarBeam, vineWhip
 from strings import *
 from dialogue import *
+
 
 class Battle():
     def __init__(self, game):
@@ -22,6 +24,38 @@ class Battle():
         #self.player_poke.append(charizard.Charizard())
         #self.enemy_poke.append(meganium.Meganium())
         self.music= pygame.mixer.Sound("sounds/battle.wav")
+
+    def chooseMoves(self, pokeType, pokemon):
+        randMoves = []
+        while len(randMoves) < 4:
+            if pokeType == "grass":
+                rand = randint(0, 6)
+                if rand == 0:
+                    ml = magicalLeaf.MagicalLeaf()
+                    randMoves.append(ml);
+                elif rand == 1:
+                    pb = petalBlizzard.PetalBlizzard()
+                    randMoves.append(pb);
+                elif rand == 2:
+                    pd = petalDance.PetalDance()
+                    randMoves.append(pd);
+                elif rand == 3:
+                    rl = razorLeaf.RazorLeaf()
+                    randMoves.append(rl);
+                elif rand == 4:
+                    sb = seedBomb.SeedBomb()
+                    randMoves.append(sb);
+                elif rand == 5:
+                    sB = solarBeam.SolarBeam()
+                    randMoves.append(sB);
+                elif rand == 6:
+                    vw = vineWhip.VineWhip()
+                    randMoves.append(vw);
+                
+        pokemon.moves = randMoves
+            
+
+        return rand
 
     def quit(self):
         pygame.mixer.pause()
@@ -88,12 +122,15 @@ class Battle():
             rand_pokemon = infernape.Infernape()
         elif num == 6:
             rand_pokemon = meganium.Meganium()
+            self.chooseMoves("grass", rand_pokemon)
         elif num == 7:
             rand_pokemon = sceptile.Sceptile()
+            self.chooseMoves("grass", rand_pokemon)
         elif num == 8:
             rand_pokemon = swampert.Swampert()
         elif num == 9:
             rand_pokemon = torterra.Torterra()
+            self.chooseMoves("grass", rand_pokemon)
         elif num == 10:
             rand_pokemon = typhlosion.Typhlosion()
         elif num == 11:
@@ -111,9 +148,10 @@ class Battle():
         self.player_poke.append(pokeP)
         self.enemy_poke.append(pokeE)
 
-
     def main(self):
         self.battle()
+        print(self.player_poke[0].moves)
+        print(self.enemy_poke[0].moves)
         self.game.battling=True
         size= [self.game.width,self.game.height]
         screen= pygame.display.set_mode(size)
@@ -131,7 +169,6 @@ class Battle():
         screen.blit(play_poke, (50, 100))
         screen.blit(enemy_poke, (380, 100))
 
-        self.battle()
 
         pygame.mixer.music.pause()
         # pygame.mixer.Sound.play(self.music)

@@ -1,6 +1,6 @@
-from . import grassTemplate
+from moves.grass.grassTemplate import GrassTemplate
 
-def PetalBlizzard(GrassTemplate):
+class PetalBlizzard(GrassTemplate):
     def __init__(self, name="petal blizzard", moveType="grass", pwr=90, acc=1, pp=15, targets=2, description="The user stirs up a violent petal blizzard and attacks everything around it."):
         super().__init__(name, moveType, pwr, acc, pp, targets, description)
 

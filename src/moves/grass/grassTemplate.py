@@ -1,8 +1,9 @@
-import moves.moveTemplate
+#import moves.moveTemplate
+from moves.moveTemplate import MoveTemplate
 
-def GrassTemplate(MoveTemplate):
-    def __init__(self, name, pwr, acc, pp, targets, description, moveType="grass"):
-        super().__init__(name, pwr, acc, pp, targets,  description, moveType)
+class GrassTemplate(MoveTemplate):
+    def __init__(self, name, moveType, pwr, acc, pp, targets, description):
+        super().__init__(name, moveType, pwr, acc, pp, targets, description,)
 
     def use(self, user, target):
         if user.type == "grass":

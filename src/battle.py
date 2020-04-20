@@ -6,6 +6,7 @@ from random import randint
 from pokemon import blastoise, blaziken, charizard, empoleon, feraligatr, infernape, meganium, sceptile, swampert, torterra, typhlosion, venusaur
 from pokemon.pokemonTemplate import PokemonTemplate
 from strings import *
+from dialogue import *
 
 class Battle():
     def __init__(self, game):
@@ -16,6 +17,7 @@ class Battle():
         self.won= None # Not True not False it's just ¯\_(ツ)_/¯
         self.done= False
         self.game= game
+        self.font= pygame.font.Font('freesansbold.ttf', 16)
         # Remove later
         #self.player_poke.append(charizard.Charizard())
         #self.enemy_poke.append(meganium.Meganium())
@@ -26,8 +28,32 @@ class Battle():
         pygame.quit()
         sys.exit()
 
-    def draw(self):
-        pass
+    def draw(self, screen):
+        self.enemy_poke[0].currentHp= self.enemy_poke[0].stats['hp']
+        self.player_poke[0].currentHp= self.player_poke[0].stats['hp']
+        player_name= str(self.player_poke[0].name).capitalize()
+        enemy_name= str(self.enemy_poke[0].name).capitalize()
+        player_hp= str(self.player_poke[0].currentHp) + "/" + str(self.player_poke[0].stats['hp'])
+        enemy_hp= str(self.enemy_poke[0].currentHp) + "/" + str(self.enemy_poke[0].stats['hp'])
+        text_p = self.font.render(player_hp, True, WHITE, BLACK)
+        text_p_name = self.font.render(player_name, True, WHITE, BLACK)
+        text_e = self.font.render(enemy_hp, True, WHITE, BLACK)
+        text_e_name = self.font.render(enemy_name, True, WHITE, BLACK)
+        textRect_p = text_p.get_rect()
+        textRect_p_name = text_p_name.get_rect()
+        textRect_e = text_e.get_rect()
+        textRect_e_name = text_e_name.get_rect()
+        X_p = 50
+        X_e = 500
+        Y = screen.get_height()
+        textRect_p.center = (X_p, Y // 2 - 200)
+        textRect_p_name.center = (X_p, Y // 2 - 250)
+        textRect_e.center = (X_e, Y // 2 - 200)
+        textRect_e_name.center = (X_e, Y // 2 - 250)
+        screen.blit(text_p, textRect_p)
+        screen.blit(text_p_name, textRect_p_name)
+        screen.blit(text_e, textRect_e)
+        screen.blit(text_e_name, textRect_e_name)
 
     def events(self):
         if self.game.battling== True:
@@ -71,7 +97,8 @@ class Battle():
         elif num == 10:
             rand_pokemon = typhlosion.Typhlosion()
         elif num == 11:
-            rand_pokemon = venusaur.Venusaur()
+            # rand_pokemon = venusaur.Venusaur()
+            rand_pokemon = typhlosion.Typhlosion()
 
         return rand_pokemon
 
@@ -81,8 +108,8 @@ class Battle():
         pokeP = self.getPokemon(p)
         pokeE = self.getPokemon(e)
 
-        self.player_poke.append(pokeP.name)
-        self.enemy_poke.append(pokeE.name)
+        self.player_poke.append(pokeP)
+        self.enemy_poke.append(pokeE)
 
 
     def main(self):
@@ -93,8 +120,8 @@ class Battle():
         screen.fill(BLACK)
         game_folder = path.dirname(__file__)[0:-3]
 
-        pp_name= self.player_poke[0]
-        pe_name= self.enemy_poke[0]
+        pp_name= self.player_poke[0].name
+        pe_name= self.enemy_poke[0].name
 
         play_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pp_name.lower() +'.png')).convert_alpha()
         play_poke= pygame.transform.flip(play_poke, True, False)
@@ -106,10 +133,11 @@ class Battle():
 
         self.battle()
 
-        pygame.display.flip()
         pygame.mixer.music.pause()
-        pygame.mixer.Sound.play(self.music)
+        # pygame.mixer.Sound.play(self.music)
         while self.done== False:
+            self.draw(screen)
             self.events()
+            pygame.display.flip()
 
         #  Make own events loop?

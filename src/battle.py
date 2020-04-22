@@ -19,7 +19,9 @@ class Battle():
         self.won= None # Not True not False it's just ¯\_(ツ)_/¯
         self.done= False
         self.game= game
+        self.player_move_names=[]
         self.font= pygame.font.Font('freesansbold.ttf', 16)
+        self.big_font= pygame.font.Font('freesansbold.ttf', 24)
         # Remove later
         #self.player_poke.append(charizard.Charizard())
         #self.enemy_poke.append(meganium.Meganium())
@@ -73,10 +75,15 @@ class Battle():
         enemy_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pe_name.lower() +'.png')).convert_alpha()
         enemy_poke= pygame.transform.flip(enemy_poke, True, False)
         platform_img= pygame.image.load(path.join(game_folder, 'assets/images/platform.png')).convert_alpha()
+        platform_img_ene= pygame.image.load(path.join(game_folder, 'assets/images/platform.png')).convert_alpha()
+        platform_img_ene= pygame.transform.flip(platform_img_ene, True, False)
+        spotlight_img= pygame.image.load(path.join(game_folder, 'assets/images/spotlight.png')).convert_alpha()
 
+        screen.blit(spotlight_img, (100, 0))
         screen.blit(platform_img, (50, 115))
         screen.blit(play_poke, (50, 100))
-        screen.blit(platform_img, (380, 115))
+        screen.blit(spotlight_img, (350, 0))
+        screen.blit(platform_img_ene, (380, 115))
         screen.blit(enemy_poke, (380, 100))
 
 
@@ -90,7 +97,7 @@ class Battle():
         text_p_name = self.font.render(player_name, True, WHITE, BLACK)
         text_e = self.font.render(enemy_hp, True, WHITE, BLACK)
         text_e_name = self.font.render(enemy_name, True, WHITE, BLACK)
-        prompt = self.font.render(BATTLE_PROMPT, True, WHITE, BLACK)
+        prompt = self.font.render(BATTLE_PROMPT.replace("you", player_name), True, WHITE, BLACK)
         textRect_p = text_p.get_rect()
         textRect_p_name = text_p_name.get_rect()
         textRect_e = text_e.get_rect()
@@ -115,7 +122,29 @@ class Battle():
         pygame.draw.rect(screen, RED, (325, 300, 200, 100 ))
         pygame.draw.rect(screen, RED, (325, 425, 200, 100 ))
         screen.blit(prompt, textRect_prompt)
-
+        try:
+            move1= str(self.player_move_names[0]).capitalize()
+            move2= str(self.player_move_names[1]).capitalize()
+            move3=str(self.player_move_names[2]).capitalize()
+            move4= str(self.player_move_names[3]).capitalize()
+            text_m1 = self.big_font.render(move1, True, WHITE, RED)
+            text_m2 = self.big_font.render(move2, True, WHITE, RED)
+            text_m3 = self.big_font.render(move3, True, WHITE, RED)
+            text_m4 = self.big_font.render(move4, True, WHITE, RED)
+            textRect_m1 = text_m1.get_rect()
+            textRect_m2 = text_m2.get_rect()
+            textRect_m3 = text_m3.get_rect()
+            textRect_m4 = text_m4.get_rect()
+            textRect_m1.center= (120, 350)
+            textRect_m2.center= (425, 350)
+            textRect_m3.center= (120, 475)
+            textRect_m4.center= (425, 475)
+            screen.blit(text_m1, textRect_m1)
+            screen.blit(text_m2, textRect_m2)
+            screen.blit(text_m3, textRect_m3)
+            screen.blit(text_m4, textRect_m4)
+        except:
+            pass
     def events(self):
         if self.game.battling== True:
             for event in pygame.event.get():
@@ -179,6 +208,10 @@ class Battle():
         size= [self.game.width,self.game.height]
         screen= pygame.display.set_mode(size)
         self.battle()
+        print(self.player_poke[0].moves)
+        for item in self.player_poke[0].moves:
+            self.player_move_names.append(item.name)
+            print(item.name)
         self.game.battling=True
 
 

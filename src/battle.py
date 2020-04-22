@@ -325,7 +325,7 @@ class Battle():
             self.chooseMoves(rand_pokemon, "water")
         elif num == 1:
             rand_pokemon = blaziken.Blaziken()
-            self.chooseMoves(rand_pokemon, "fire", )
+            self.chooseMoves(rand_pokemon, "fire" )
         elif num == 2:
             rand_pokemon = charizard.Charizard()
             self.chooseMoves(rand_pokemon, "fire")
@@ -355,7 +355,7 @@ class Battle():
             self.chooseMoves(rand_pokemon, "fire")
         elif num == 11:
             rand_pokemon = venusaur.Venusaur()
-            self.chooseMoves("grass", rand_pokemon)
+            self.chooseMoves(rand_pokemon, "grass")
 
         print (rand_pokemon.name)
         return rand_pokemon

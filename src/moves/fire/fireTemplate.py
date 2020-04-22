@@ -1,9 +1,8 @@
-import moves.moveTemplate
+from moves.moveTemplate import MoveTemplate
 
-def FireTemplate(MoveTemplate):
-    def __init__(self, name, moveType="fire", pwr, acc, pp, targets, burn, description):
+class FireTemplate(MoveTemplate):
+    def __init__(self, name, moveType, pwr, acc, pp, targets, description):
         super().__init__(name, moveType, pwr, acc, pp, targets, description)
-        self.burn = burn
 
     def use(self, user, target):
         if user.type == "fire":
@@ -24,11 +23,3 @@ def FireTemplate(MoveTemplate):
             modifier = 1 * stab * eff
         damage = (((((2*user.lvl)/5 + 2)*self.pwr*(user.spAttack/target.spDef))/50)+2) * modifier
         target.changeHp(-damage);
-
-        found = False
-        for ailment in target.ailments
-            if ailment = "burn":
-                found = True
-
-        if !found:
-           ailments.append("burn") 

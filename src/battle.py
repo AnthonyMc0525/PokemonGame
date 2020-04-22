@@ -6,6 +6,8 @@ from random import randint
 from pokemon import blastoise, blaziken, charizard, empoleon, feraligatr, infernape, meganium, sceptile, swampert, torterra, typhlosion, venusaur
 from pokemon.pokemonTemplate import PokemonTemplate
 from moves.grass import grassTemplate, magicalLeaf, petalBlizzard, petalDance, razorLeaf, seedBomb, solarBeam, vineWhip
+from moves.fire import fireTemplate, burnUp, ember, Eruption, fireFang, fireSpin, flameCharge, flamethrower, flameWheel, flareBlitz, inferno, lavaPlume
+from moves.water import aquaTail, bubble, hydroPump, waterGun, waterPulse
 from strings import *
 from dialogue import *
 
@@ -27,11 +29,11 @@ class Battle():
         #self.enemy_poke.append(meganium.Meganium())
         self.music= pygame.mixer.Sound("sounds/battle.wav")
 
-    def chooseMoves(self, pokeType, pokemon):
+    def chooseMoves(self, pokemon, pokeType1, pokeType2="none"):
         randMoves = []
         names = []
         while len(randMoves) < 4:
-            if pokeType == "grass":
+            if pokeType1 == "grass":
                 rand = randint(0, 6)
                 if rand == 0:
                     ml = magicalLeaf.MagicalLeaf()
@@ -82,6 +84,122 @@ class Battle():
                     else:
                         names.append(vw.name)
                         randMoves.append(vw);
+            if pokeType1 == "fire":
+                rand = randint(0, 10)
+                if rand == 0:
+                    bu = burnUp.BurnUp()
+                    if bu.name in names:
+                        continue
+                    else:
+                        names.append(bu.name)
+                        randMoves.append(bu);
+                elif rand == 1:
+                    e = ember.Ember()
+                    if e.name in names:
+                        continue
+                    else:
+                        names.append(e.name)
+                        randMoves.append(e);
+                elif rand == 2:
+                    E = Eruption.Eruption()
+                    if E.name in names:
+                        continue
+                    else:
+                        names.append(E.name)
+                        randMoves.append(E);
+                elif rand == 3:
+                    ff = fireFang.FireFang()
+                    if ff.name in names:
+                        continue
+                    else:
+                        names.append(ff.name)
+                        randMoves.append(ff);
+                elif rand == 4:
+                    fs = fireSpin.FireSpin()
+                    if fs.name in names:
+                        continue
+                    else:
+                        names.append(fs.name)
+                        randMoves.append(fs);
+                elif rand == 5:
+                    fc = flameCharge.FlameCharge()
+                    if fc.name in names:
+                        continue
+                    else:
+                        names.append(fc.name)
+                        randMoves.append(fc);
+                elif rand == 6:
+                    ft = flamethrower.Flamethrower()
+                    if ft.name in names:
+                        continue
+                    else:
+                        names.append(ft.name)
+                        randMoves.append(ft);
+                elif rand == 7:
+                    fw = flameWheel.FlameWheel()
+                    if fw.name in names:
+                        continue
+                    else:
+                        names.append(fw.name)
+                        randMoves.append(fw);
+                elif rand == 8:
+                    fb = flareBlitz.FlareBlitz()
+                    if fb.name in names:
+                        continue
+                    else:
+                        names.append(fb.name)
+                        randMoves.append(fb);
+                elif rand == 9:
+                    inf = inferno.Inferno()
+                    if inf.name in names:
+                        continue
+                    else:
+                        names.append(inf.name)
+                        randMoves.append(inf);
+                elif rand == 10:
+                    lp = lavaPlume.LavaPlume()
+                    if lp.name in names:
+                        continue
+                    else:
+                        names.append(lp.name)
+                        randMoves.append(lp);
+            if pokeType1 == "water":
+                rand = randint(0, 4)
+                if rand == 0:
+                    aq = aquaTail.AquaTail()
+                    if aq.name in names:
+                        continue
+                    else:
+                        names.append(aq.name)
+                        randMoves.append(aq);
+                elif rand == 1:
+                    b = bubble.Bubble()
+                    if b.name in names:
+                        continue
+                    else:
+                        names.append(b.name)
+                        randMoves.append(b);
+                elif rand == 2:
+                    hp = hydroPump.HydroPump()
+                    if hp.name in names:
+                        continue
+                    else:
+                        names.append(hp.name)
+                        randMoves.append(hp);
+                elif rand == 3:
+                    wg = waterGun.WaterGun()
+                    if wg.name in names:
+                        continue
+                    else:
+                        names.append(wg.name)
+                        randMoves.append(wg);
+                elif rand == 4:
+                    wp = waterPulse.WaterPulse()
+                    if wp.name in names:
+                        continue
+                    else:
+                        names.append(wp.name)
+                        randMoves.append(wp);
 
         pokemon.moves = randMoves
         print(names)
@@ -204,29 +322,37 @@ class Battle():
         rand_pokemon = 0
         if num == 0:
             rand_pokemon = blastoise.Blastoise()
+            self.chooseMoves(rand_pokemon, "water")
         elif num == 1:
             rand_pokemon = blaziken.Blaziken()
+            self.chooseMoves(rand_pokemon, "fire", )
         elif num == 2:
             rand_pokemon = charizard.Charizard()
+            self.chooseMoves(rand_pokemon, "fire")
         elif num == 3:
             rand_pokemon = empoleon.Empoleon()
+            self.chooseMoves(rand_pokemon, "water")
         elif num == 4:
             rand_pokemon = feraligatr.Feraligatr()
+            self.chooseMoves(rand_pokemon, "water")
         elif num == 5:
             rand_pokemon = infernape.Infernape()
+            self.chooseMoves(rand_pokemon, "fire")
         elif num == 6:
             rand_pokemon = meganium.Meganium()
-            self.chooseMoves("grass", rand_pokemon)
+            self.chooseMoves(rand_pokemon, "grass")
         elif num == 7:
             rand_pokemon = sceptile.Sceptile()
-            self.chooseMoves("grass", rand_pokemon)
+            self.chooseMoves(rand_pokemon, "grass")
         elif num == 8:
             rand_pokemon = swampert.Swampert()
+            self.chooseMoves(rand_pokemon, "water")
         elif num == 9:
             rand_pokemon = torterra.Torterra()
-            self.chooseMoves("grass", rand_pokemon)
+            self.chooseMoves(rand_pokemon, "grass")
         elif num == 10:
             rand_pokemon = typhlosion.Typhlosion()
+            self.chooseMoves(rand_pokemon, "fire")
         elif num == 11:
             rand_pokemon = venusaur.Venusaur()
             self.chooseMoves("grass", rand_pokemon)

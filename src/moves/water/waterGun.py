@@ -1,4 +1,4 @@
-from . import waterTemplate
+from moves.water.waterTemplate import WaterTemplate
 
 class WaterGun(WaterTemplate):
     def __init__(self, name="water gun", moveType="attack", pwr=40, acc=1, pp=25, targets=1, description="The target is blasted with a forceful shot of water."):

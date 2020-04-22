@@ -1,7 +1,7 @@
-from . import fireTemplate
+from moves.fire.fireTemplate import FireTemplate
 
-def FlameCharge(FireTemplate):
-    def __init__(self, name="flame charge", moveType="attack", pwr=50, acc=1, pp=20, targets=1, description="Cloaking itself in flame, the user attacks. Then, building up more power, the user raises its Speed stat."):
+class FlameCharge(FireTemplate):
+    def __init__(self, name="flame charge", moveType="fire", pwr=50, acc=1, pp=20, targets=1, description="Cloaking itself in flame, the user attacks. Then, building up more power, the user raises its Speed stat."):
         super().__init__(name, moveType, pwr, acc, pp, targets, description)
 
     def use(self, user, target):

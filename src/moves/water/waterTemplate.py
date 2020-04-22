@@ -1,18 +1,18 @@
-import moves.moveTemplate
+from moves.moveTemplate import MoveTemplate
 
-def WaterTemplate(MoveTemplate):
+class WaterTemplate(MoveTemplate):
     def __init__(self, name, moveType, pwr, acc, pp, targets, description):
         super().__init__(name, moveType, pwr, acc, pp, targets, description)
 
     def use(self, user, target):
-        if user.type = "water":
+        if user.type == "water":
             stab = 1.5
         else:
             stab = 1
 
         if target.type == "fire" or target.type == "ground" or target.type == "rock":
             eff = 2.0
-        else if target.type == "electric" or target.type == "grass":
+        elif target.type == "electric" or target.type == "grass":
             eff = .5
         else:
             eff = 1

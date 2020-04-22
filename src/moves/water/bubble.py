@@ -1,7 +1,7 @@
-from . import waterTemplate
+from moves.water.waterTemplate import WaterTemplate
 
-class WaterGun(WaterTemplate):
-    def __init__(self, name="water gun", moveType="attack", pwr=40, acc=1, pp=25, targets=1, description="The target is blasted with a forceful shot of water."):
+class Bubble(WaterTemplate):
+    def __init__(self, name="bubble", moveType="water", pwr=40, acc=1, pp=30, targets=1, description="A spray of countless bubbles is jetted at the opposing Pokémon. This may also lower their Speed stat."):
         super().__init__(name, moveType, pwr, acc, pp, targets, description)
 
     def use(self, user, target):

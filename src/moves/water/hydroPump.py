@@ -1,4 +1,4 @@
-from . import waterTemplate
+from moves.water.waterTemplate import WaterTemplate
 
 class HydroPump(WaterTemplate):
     def __init__(self, name="hydro pump", moveType="attack", pwr=110, acc=.8, pp=5, targets=1, description="The target is blasted by a huge volume of water launched under great pressure."):

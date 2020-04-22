@@ -29,34 +29,62 @@ class Battle():
 
     def chooseMoves(self, pokeType, pokemon):
         randMoves = []
+        names = []
         while len(randMoves) < 4:
             if pokeType == "grass":
                 rand = randint(0, 6)
                 if rand == 0:
                     ml = magicalLeaf.MagicalLeaf()
-                    randMoves.append(ml);
+                    if ml.name in names:
+                        continue
+                    else:
+                        names.append(ml.name)
+                        randMoves.append(ml);
                 elif rand == 1:
                     pb = petalBlizzard.PetalBlizzard()
-                    randMoves.append(pb);
+                    if pb.name in names:
+                        continue
+                    else:
+                        names.append(pb.name)
+                        randMoves.append(pb);
                 elif rand == 2:
                     pd = petalDance.PetalDance()
-                    randMoves.append(pd);
+                    if pd.name in names:
+                        continue
+                    else:
+                        names.append(pd.name)
+                        randMoves.append(pd);
                 elif rand == 3:
                     rl = razorLeaf.RazorLeaf()
-                    randMoves.append(rl);
+                    if rl.name in names:
+                        continue
+                    else:
+                        names.append(rl.name)
+                        randMoves.append(rl);
                 elif rand == 4:
                     sb = seedBomb.SeedBomb()
-                    randMoves.append(sb);
+                    if sb.name in names:
+                        continue
+                    else:
+                        names.append(sb.name)
+                        randMoves.append(sb);
                 elif rand == 5:
                     sB = solarBeam.SolarBeam()
-                    randMoves.append(sB);
+                    if sB.name in names:
+                        continue
+                    else:
+                        names.append(sB.name)
+                        randMoves.append(sB);
                 elif rand == 6:
                     vw = vineWhip.VineWhip()
-                    randMoves.append(vw);
+                    if vw.name in names:
+                        continue
+                    else:
+                        names.append(vw.name)
+                        randMoves.append(vw);
 
         pokemon.moves = randMoves
-
-
+        print(names)
         return rand
 
     def quit(self):

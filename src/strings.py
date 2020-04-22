@@ -8,6 +8,7 @@ FPS=30
 
 # Colours
 BLACK= (0,0,0)
+ALMOST_BLACK= (30,30,30)
 WHITE= (255,255,255)
 RED=(255,0,0)
 ORANGE=(255,128,0)
@@ -16,6 +17,7 @@ GREEN=(0,192,0)
 BLUE= (0,0,192)
 PURPLE= (192,0,192)
 PINK= (255, 0, 255)
+BTN_COLOUR=(184, 40, 52)
 
 # Names
 GAME_NAME="Pokémon Game"

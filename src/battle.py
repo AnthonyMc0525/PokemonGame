@@ -93,19 +93,27 @@ class Battle():
         sys.exit()
 
     def draw(self, screen):
-        screen.fill(BLACK)
+        screen.fill(ALMOST_BLACK)
         game_folder = path.dirname(__file__)[0:-3]
 
         pp_name= self.player_poke[0].name
         pe_name= self.enemy_poke[0].name
+        pp_type= self.player_poke[0].type
+        pe_type= self.enemy_poke[0].type
 
         play_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pp_name.lower() +'.png')).convert_alpha()
+        play_type=pygame.image.load(path.join(game_folder, 'assets/images/'+ pp_type.lower() +'.png')).convert_alpha()
         enemy_poke=pygame.image.load(path.join(game_folder, 'assets/images/'+ pe_name.lower() +'.png')).convert_alpha()
+        enemy_type=pygame.image.load(path.join(game_folder, 'assets/images/'+ pe_type.lower() +'.png')).convert_alpha()
         enemy_poke= pygame.transform.flip(enemy_poke, True, False)
         platform_img= pygame.image.load(path.join(game_folder, 'assets/images/platform.png')).convert_alpha()
         platform_img_ene= pygame.image.load(path.join(game_folder, 'assets/images/platform.png')).convert_alpha()
         platform_img_ene= pygame.transform.flip(platform_img_ene, True, False)
         spotlight_img= pygame.image.load(path.join(game_folder, 'assets/images/spotlight.png')).convert_alpha()
+
+
+        spotlight_size = spotlight_img.get_size()
+        spotlight_img = pygame.transform.scale(spotlight_img, (int(spotlight_size[0]), int(spotlight_size[1]*2)))
 
         screen.blit(spotlight_img, (100, 0))
         screen.blit(platform_img, (50, 115))
@@ -113,6 +121,8 @@ class Battle():
         screen.blit(spotlight_img, (350, 0))
         screen.blit(platform_img_ene, (380, 115))
         screen.blit(enemy_poke, (380, 100))
+        screen.blit(play_type, (30, 100))
+        screen.blit(enemy_type, (490, 100))
 
 
         self.enemy_poke[0].currentHp= self.enemy_poke[0].stats['hp']
@@ -121,11 +131,11 @@ class Battle():
         enemy_name= str(self.enemy_poke[0].name).capitalize()
         player_hp= str(self.player_poke[0].currentHp) + "/" + str(self.player_poke[0].stats['hp'])
         enemy_hp= str(self.enemy_poke[0].currentHp) + "/" + str(self.enemy_poke[0].stats['hp'])
-        text_p = self.font.render(player_hp, True, WHITE, BLACK)
-        text_p_name = self.font.render(player_name, True, WHITE, BLACK)
-        text_e = self.font.render(enemy_hp, True, WHITE, BLACK)
-        text_e_name = self.font.render(enemy_name, True, WHITE, BLACK)
-        prompt = self.font.render(BATTLE_PROMPT.replace("you", player_name), True, WHITE, BLACK)
+        text_p = self.font.render(player_hp, True, WHITE)
+        text_p_name = self.font.render(player_name, True, WHITE)
+        text_e = self.font.render(enemy_hp, True, WHITE)
+        text_e_name = self.font.render(enemy_name, True, WHITE)
+        prompt = self.font.render(BATTLE_PROMPT.replace("you", player_name), True, WHITE)
         textRect_p = text_p.get_rect()
         textRect_p_name = text_p_name.get_rect()
         textRect_e = text_e.get_rect()
@@ -145,20 +155,20 @@ class Battle():
         screen.blit(text_e, textRect_e)
         screen.blit(text_e_name, textRect_e_name)
         # pygame.draw.rect(screen, [red, blue, green], [left, top, width, height], filled)
-        pygame.draw.rect(screen, RED, (25, 300, 200, 100 ))
-        pygame.draw.rect(screen, RED, (25, 425, 200, 100 ))
-        pygame.draw.rect(screen, RED, (325, 300, 200, 100 ))
-        pygame.draw.rect(screen, RED, (325, 425, 200, 100 ))
+        pygame.draw.rect(screen, BTN_COLOUR, (25, 300, 200, 100 ))
+        pygame.draw.rect(screen, BTN_COLOUR, (25, 425, 200, 100 ))
+        pygame.draw.rect(screen, BTN_COLOUR, (325, 300, 200, 100 ))
+        pygame.draw.rect(screen, BTN_COLOUR, (325, 425, 200, 100 ))
         screen.blit(prompt, textRect_prompt)
         try:
             move1= str(self.player_move_names[0]).capitalize()
             move2= str(self.player_move_names[1]).capitalize()
             move3=str(self.player_move_names[2]).capitalize()
             move4= str(self.player_move_names[3]).capitalize()
-            text_m1 = self.big_font.render(move1, True, WHITE, RED)
-            text_m2 = self.big_font.render(move2, True, WHITE, RED)
-            text_m3 = self.big_font.render(move3, True, WHITE, RED)
-            text_m4 = self.big_font.render(move4, True, WHITE, RED)
+            text_m1 = self.big_font.render(move1, True, WHITE)
+            text_m2 = self.big_font.render(move2, True, WHITE)
+            text_m3 = self.big_font.render(move3, True, WHITE)
+            text_m4 = self.big_font.render(move4, True, WHITE)
             textRect_m1 = text_m1.get_rect()
             textRect_m2 = text_m2.get_rect()
             textRect_m3 = text_m3.get_rect()
@@ -218,9 +228,10 @@ class Battle():
         elif num == 10:
             rand_pokemon = typhlosion.Typhlosion()
         elif num == 11:
-            # rand_pokemon = venusaur.Venusaur()
-            rand_pokemon = typhlosion.Typhlosion()
+            rand_pokemon = venusaur.Venusaur()
+            self.chooseMoves("grass", rand_pokemon)
 
+        print (rand_pokemon.name)
         return rand_pokemon
 
     def battle(self): #self, player, enemy

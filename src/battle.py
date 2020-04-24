@@ -21,6 +21,8 @@ class Battle():
         self.won= None # Not True not False it's just ¯\_(ツ)_/¯
         self.done= False
         self.game= game
+        self.button_list=[1, 2, 3, 4]
+        self.button_no= self.button_list[0]
         self.player_move_names=[]
         self.font= pygame.font.Font('freesansbold.ttf', 16)
         self.big_font= pygame.font.Font('freesansbold.ttf', 24)
@@ -273,15 +275,30 @@ class Battle():
         screen.blit(text_e, textRect_e)
         screen.blit(text_e_name, textRect_e_name)
         # pygame.draw.rect(screen, [red, blue, green], [left, top, width, height], filled)
-        pygame.draw.rect(screen, BTN_COLOUR, (25, 300, 200, 100 ))
-        pygame.draw.rect(screen, BTN_COLOUR, (25, 425, 200, 100 ))
-        pygame.draw.rect(screen, BTN_COLOUR, (325, 300, 200, 100 ))
-        pygame.draw.rect(screen, BTN_COLOUR, (325, 425, 200, 100 ))
+        # This will get nasty but oh well...
+        if self.button_no == 1:
+            pygame.draw.rect(screen, SELECTED_BTN, (25, 300, 200, 100 ))
+        else:
+            pygame.draw.rect(screen, BTN_COLOUR, (25, 300, 200, 100 ))
+        if self.button_no == 2:
+            pygame.draw.rect(screen, SELECTED_BTN, (25, 425, 200, 100 ))
+        else:
+            pygame.draw.rect(screen, BTN_COLOUR, (25, 425, 200, 100 ))
+        if self.button_no== 3:
+            pygame.draw.rect(screen, SELECTED_BTN, (325, 300, 200, 100 ))
+        else:
+            pygame.draw.rect(screen, BTN_COLOUR, (325, 300, 200, 100 ))
+        if self.button_no == 4:
+            pygame.draw.rect(screen, SELECTED_BTN, (325, 425, 200, 100 ))
+        else:
+            pygame.draw.rect(screen, BTN_COLOUR, (325, 425, 200, 100 ))
+        # ------ #
+
         screen.blit(prompt, textRect_prompt)
         try:
             move1= str(self.player_move_names[0]).capitalize()
-            move2= str(self.player_move_names[1]).capitalize()
-            move3=str(self.player_move_names[2]).capitalize()
+            move3= str(self.player_move_names[1]).capitalize()
+            move2= str(self.player_move_names[2]).capitalize()
             move4= str(self.player_move_names[3]).capitalize()
             text_m1 = self.big_font.render(move1, True, WHITE)
             text_m2 = self.big_font.render(move2, True, WHITE)
@@ -317,6 +334,46 @@ class Battle():
                         self.done= True
                         pygame.mixer.Sound.fadeout(self.music,1000)
                         self.game.run()
+                    elif event.key == pygame.K_DOWN:
+                        if self.button_no == 2:
+                            self.button_no = 1
+                        elif self.button_no == 4:
+                            self.button_no = 3
+                        elif self.button_no == 1:
+                            self.button_no= 2
+                        else:
+                            # Number is 3
+                            self.button_no = 4
+                    elif event.key == pygame.K_UP:
+                        if self.button_no == 2:
+                            self.button_no = 1
+                        elif self.button_no == 4:
+                            self.button_no = 3
+                        elif self.button_no== 1:
+                            self.button_no= 2
+                        else:
+                            self.button_no= 4
+                    elif event.key == pygame.K_LEFT:
+                        if self.button_no == 3:
+                            self.button_no = 1
+                        elif self.button_no == 4:
+                            self.button_no = 2
+                        elif self.button_no== 1:
+                            self.button_no= 3
+                        else:
+                            self.button_no= 4
+                    elif event.key == pygame.K_RIGHT:
+                        if self.button_no == 1:
+                            self.button_no = 3
+                        elif self.button_no == 2:
+                            self.button_no = 4
+                        elif self.button_no == 3:
+                            self.button_no = 1
+                        else:
+                            self.button_no= 2
+                    elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                        move_name= self.player_poke[0].moves[self.button_no-1].name
+                        print("Pokemon used " + move_name +"!")
 
     def getPokemon(self, num):
         rand_pokemon = 0

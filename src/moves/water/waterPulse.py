@@ -1,3 +1,5 @@
+import random
+
 from moves.water.waterTemplate import WaterTemplate
 
 class WaterPulse(WaterTemplate):

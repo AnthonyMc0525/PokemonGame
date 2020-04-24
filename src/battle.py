@@ -165,7 +165,7 @@ class Battle():
                     else:
                         names.append(lp.name)
                         randMoves.append(lp);
-            if pokeType1 == "water" and pokeType == "none":
+            if pokeType1 == "water" and pokeType2 == "none":
                 rand = randint(0, 4)
                 if rand == 0:
                     aq = aquaTail.AquaTail()
@@ -320,60 +320,63 @@ class Battle():
             pass
     def events(self):
         if self.game.battling== True:
-            for event in pygame.event.get():
-                if event.type== pygame.QUIT:
-                    print("Bye bye...")
-                    self.quit()
-                elif event.type== pygame.KEYDOWN:
-                    if event.key== pygame.K_ESCAPE:
-                        print("See ya.")
+            while self.won == None:
+                for event in pygame.event.get():
+                    if event.type== pygame.QUIT:
+                        print("Bye bye...")
                         self.quit()
-                    elif event.key== pygame.K_q:
-                        print("Q key pressed.")
-                        self.game.battling=False
-                        self.done= True
-                        pygame.mixer.Sound.fadeout(self.music,1000)
-                        self.game.run()
-                    elif event.key == pygame.K_DOWN:
-                        if self.button_no == 2:
-                            self.button_no = 1
-                        elif self.button_no == 4:
-                            self.button_no = 3
-                        elif self.button_no == 1:
-                            self.button_no= 2
-                        else:
-                            # Number is 3
-                            self.button_no = 4
-                    elif event.key == pygame.K_UP:
-                        if self.button_no == 2:
-                            self.button_no = 1
-                        elif self.button_no == 4:
-                            self.button_no = 3
-                        elif self.button_no== 1:
-                            self.button_no= 2
-                        else:
-                            self.button_no= 4
-                    elif event.key == pygame.K_LEFT:
-                        if self.button_no == 3:
-                            self.button_no = 1
-                        elif self.button_no == 4:
-                            self.button_no = 2
-                        elif self.button_no== 1:
-                            self.button_no= 3
-                        else:
-                            self.button_no= 4
-                    elif event.key == pygame.K_RIGHT:
-                        if self.button_no == 1:
-                            self.button_no = 3
-                        elif self.button_no == 2:
-                            self.button_no = 4
-                        elif self.button_no == 3:
-                            self.button_no = 1
-                        else:
-                            self.button_no= 2
-                    elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
-                        move_name= self.player_poke[0].moves[self.button_no-1].name
-                        print("Pokemon used " + move_name +"!")
+                    elif event.type== pygame.KEYDOWN:
+                        if event.key== pygame.K_ESCAPE:
+                            print("See ya.")
+                            self.quit()
+                        elif event.key== pygame.K_q:
+                            print("Q key pressed.")
+                            self.game.battling=False
+                            self.done= True
+                            pygame.mixer.Sound.fadeout(self.music,1000)
+                            self.game.run()
+                        elif event.key == pygame.K_DOWN:
+                            if self.button_no == 2:
+                                self.button_no = 1
+                            elif self.button_no == 4:
+                                self.button_no = 3
+                            elif self.button_no == 1:
+                                self.button_no= 2
+                            else:
+                                # Number is 3
+                                self.button_no = 4
+                        elif event.key == pygame.K_UP:
+                            if self.button_no == 2:
+                                self.button_no = 1
+                            elif self.button_no == 4:
+                                self.button_no = 3
+                            elif self.button_no== 1:
+                                self.button_no= 2
+                            else:
+                                self.button_no= 4
+                        elif event.key == pygame.K_LEFT:
+                            if self.button_no == 3:
+                                self.button_no = 1
+                            elif self.button_no == 4:
+                                self.button_no = 2
+                            elif self.button_no== 1:
+                                self.button_no= 3
+                            else:
+                                self.button_no= 4
+                        elif event.key == pygame.K_RIGHT:
+                            if self.button_no == 1:
+                                self.button_no = 3
+                            elif self.button_no == 2:
+                                self.button_no = 4
+                            elif self.button_no == 3:
+                                self.button_no = 1
+                            else:
+                                self.button_no= 2
+                        elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                            print(self.enemy_poke[0].currentHp)
+                            move = self.player_poke[0].moves[self.button_no-1]
+                            move.use(self.player_poke[0], self.enemy_poke[0])
+                            print(self.enemy_poke[0].currentHp)
 
     def getPokemon(self, num):
         rand_pokemon = 0
@@ -422,7 +425,6 @@ class Battle():
         e = randint(0, 11)
         pokeP = self.getPokemon(p)
         pokeE = self.getPokemon(e)
-
         self.player_poke.append(pokeP)
         self.enemy_poke.append(pokeE)
 

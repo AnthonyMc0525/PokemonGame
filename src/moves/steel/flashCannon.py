@@ -1,3 +1,5 @@
+import random
+
 from . import steelTemplate
 
 def FlashCannon(SteelTemplate):

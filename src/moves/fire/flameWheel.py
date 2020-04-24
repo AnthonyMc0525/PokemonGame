@@ -1,3 +1,5 @@
+import random
+
 from moves.fire.fireTemplate import FireTemplate
 
 class FlameWheel(FireTemplate):

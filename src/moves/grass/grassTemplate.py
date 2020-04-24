@@ -1,4 +1,5 @@
-#import moves.moveTemplate
+import math
+
 from moves.moveTemplate import MoveTemplate
 
 class GrassTemplate(MoveTemplate):
@@ -24,6 +25,9 @@ class GrassTemplate(MoveTemplate):
             modifier = 1 * stab * eff
 
 
-        damage = (((((2*user.lvl)/5 + 2)*self.pwr*(user.spAttack/target.spDef))/50)+2) * modifier
-
-        target.changeHp(-damage);
+        damage = math.floor(((((2*100)/5 + 2)*self.pwr*(user.stats['Sp. Atk']/target.stats['Sp. Def']))/50)+2) * modifier
+        print(damage)
+        if target.currentHp - damage <= 0:
+            target.currentHp = 0
+        else:
+            target.currentHp -= damage

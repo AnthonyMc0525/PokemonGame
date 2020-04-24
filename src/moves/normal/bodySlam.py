@@ -1,3 +1,5 @@
+import random
+
 from . import normalTemplate
 
 def BodySlam(NormalTemplate):

@@ -33,7 +33,7 @@ class Battle():
         randMoves = []
         names = []
         while len(randMoves) < 4:
-            if pokeType1 == "grass":
+            if pokeType1 == "grass" and pokeType2 == "none":
                 rand = randint(0, 6)
                 if rand == 0:
                     ml = magicalLeaf.MagicalLeaf()
@@ -84,7 +84,7 @@ class Battle():
                     else:
                         names.append(vw.name)
                         randMoves.append(vw);
-            if pokeType1 == "fire":
+            if pokeType1 == "fire" and pokeType2 == "none":
                 rand = randint(0, 10)
                 if rand == 0:
                     bu = burnUp.BurnUp()
@@ -163,7 +163,7 @@ class Battle():
                     else:
                         names.append(lp.name)
                         randMoves.append(lp);
-            if pokeType1 == "water":
+            if pokeType1 == "water" and pokeType == "none":
                 rand = randint(0, 4)
                 if rand == 0:
                     aq = aquaTail.AquaTail()

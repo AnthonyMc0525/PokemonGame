@@ -18,6 +18,7 @@ BLUE= (0,0,192)
 PURPLE= (192,0,192)
 PINK= (255, 0, 255)
 BTN_COLOUR=(184, 40, 52)
+SELECTED_BTN= (255, 82, 85)
 
 # Names
 GAME_NAME="Pokémon Game"

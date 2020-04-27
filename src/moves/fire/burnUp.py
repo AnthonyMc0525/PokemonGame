@@ -7,4 +7,4 @@ class BurnUp(FireTemplate):
     def use(self, user, target):
         super().use(user, target)
 
-        user.types.remove("fire")
+        user.type="normal"

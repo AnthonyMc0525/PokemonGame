@@ -3,6 +3,7 @@ class PokemonTemplate:
         self.name = name
         self.stats = stats
         self.currentHp = currentHp
+        self.maxHp= currentHp
         self.moves = moves
         self.ailments = ailments
         self.type= type

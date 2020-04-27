@@ -375,11 +375,11 @@ class Battle():
                         else:
                             self.button_no= 2
                     elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
-                        print(self.enemy_poke[0].currentHp)
                         move = self.player_poke[0].moves[self.button_no-1]
                         move.use(self.player_poke[0], self.enemy_poke[0])
                         print("Player used " + move.name)
                         print(self.enemy_poke[0].currentHp)
+                        print("enemy HP: " + str(self.enemy_poke[0].currentHp))
                         # time.sleep(3)
                         if self.enemy_poke[0].currentHp <= 0:
                             self.game.battling=False
@@ -388,8 +388,14 @@ class Battle():
                             self.game.run()
                         else:
                             e_move = self.enemy_poke[0].moves[randint(0,3)]
-                            e_move.use(self.enemy_poke[0], self.enemy_poke[0])
+                            e_move.use(self.enemy_poke[0], self.player_poke[0])
                             print("Enemy used " + e_move.name)
+                        print("player HP: " + str(self.player_poke[0].currentHp))
+                        if self.player_poke[0].currentHp <=0:
+                            self.game.battling=False
+                            self.done= True
+                            pygame.mixer.Sound.fadeout(self.music,1000)
+                            self.game.run()
 
     def getPokemon(self, num):
         rand_pokemon = 0

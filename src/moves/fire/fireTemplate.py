@@ -23,7 +23,7 @@ class FireTemplate(MoveTemplate):
             modifier = .75 * stab * eff
         else:
             modifier = 1 * stab * eff
-        damage = math.floor(((((2*100)/5 + 2)*self.pwr*(user.stats['Sp. Atk']/target.stats['Sp. Def']))/50)+2) * modifier
+        damage = math.floor((((((2*100)/5 + 2)*self.pwr*(user.stats['Sp. Atk']/target.stats['Sp. Def']))/50)+2) * modifier)
         print(damage)
         if target.currentHp - damage <= 0:
             target.currentHp = 0

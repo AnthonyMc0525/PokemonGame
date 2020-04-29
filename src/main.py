@@ -52,12 +52,31 @@ class Game:
         textRect_start = textSurface.get_rect()
         textRect_start.center = (350, 500)
         screen.blit(textSurface, textRect_start)
-        pygame.display.update()
-        self.clock.tick(FPS)
         width = textRect_start.width
         height = textRect_start.height
         x = 350 - width/2
         y = 500 - height/2
+
+        small_font = pygame.font.Font('freesansbold.ttf', 30)
+        instructions = "When in the game, press 'b' to enter a"
+        textSurf = small_font.render(instructions, True, BLACK)
+        tRect = textSurf.get_rect()
+        tRect.center = (350, 200)
+        screen.blit(textSurf, tRect)
+
+        instructions = "battle with random pokemon and moves."
+        textSurf2 = small_font.render(instructions, True, BLACK)
+        tRect2 = textSurf2.get_rect()
+        tRect2.center = (350, 250)
+        screen.blit(textSurf2, tRect2)
+
+        instructions = "You will be the pokemon on the left."
+        textSurf3 = small_font.render(instructions, True, BLACK)
+        tRect3 = textSurf3.get_rect()
+        tRect3.center = (350, 300)
+        screen.blit(textSurf3, tRect3)
+        pygame.display.update()
+        self.clock.tick(FPS)
         while intro:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

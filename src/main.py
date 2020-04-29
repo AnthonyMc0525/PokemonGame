@@ -44,6 +44,35 @@ class Game:
         # self.all_sprites= pygame.sprite.Group()
         print("Initialised game.")
 
+    def game_intro(self, screen):
+        intro = True
+        screen.fill(WHITE)
+        font = pygame.font.Font('freesansbold.ttf',115)
+        textSurface = font.render("Start", True, BLACK)
+        textRect_start = textSurface.get_rect()
+        textRect_start.center = (350, 500)
+        screen.blit(textSurface, textRect_start)
+        pygame.display.update()
+        self.clock.tick(FPS)
+        width = textRect_start.width
+        height = textRect_start.height
+        x = 350 - width/2
+        y = 500 - height/2
+        while intro:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                elif event.type == MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    if pos[0] > x and pos[0] < x + width:
+                        if pos[1] > y and pos[1] < y + height:
+                            self.run() 
+
+
+
+
+
 
     def make_map(self):
         temp_surface= pygame.Surface((self.width, self.height))
@@ -159,8 +188,9 @@ def main():
     screen= pygame.display.set_mode(size)
 
     while not done and not game.battling:
-        game.new()
-        game.run()
+        game.game_intro(screen)
+#        game.new()
+#        game.run()
 
     # If done, quit.
     pygame.quit()

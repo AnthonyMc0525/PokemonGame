@@ -9,7 +9,7 @@ screen= pygame.display.set_mode(size)
 
 default_sprite= pygame.image.load(path.join(game_folder, 'assets/images/trainer_f.png')).convert_alpha()
 class NpcTemplate(pygame.sprite.Sprite):
-    def __init__(self, game, x, y, name, sprite=default_sprite, dialog='Hello'):
+    def __init__(self, game, x, y, w, h, name, sprite=default_sprite, dialog='Hello'):
         pygame.sprite.Sprite.__init__(self)
         self.name = name
         self.game=game
@@ -17,7 +17,8 @@ class NpcTemplate(pygame.sprite.Sprite):
         self.y=y
         self.vx=x
         self.vy= y
-        self.hitbox=(x, y, 16, 32)
+        self.width= 16
+        self.height= 32
         self.image= pygame.Surface((16,32), pygame.SRCALPHA)
         self.sprite = sprite
         self.rect= self.image.get_rect()

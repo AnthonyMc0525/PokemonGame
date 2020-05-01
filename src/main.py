@@ -38,7 +38,7 @@ class Game:
         self.player= Player(self, 0, 0)
         self.all_sprites= []
         self.npcs=[]
-        self.collide_key=''
+        self.collide=False
         self.pressed= pygame.key.get_pressed()
         self.walls= pygame.sprite.Group()
         self.all_sprites.append(self.player.rect)
@@ -72,15 +72,16 @@ class Game:
             if tile_object.name=="player":
                 # Player spawn point in the map.
                 self.player= Player(self, tile_object.x, tile_object.y)
+                print("Spawning player at x:" + str(self.player.vx) + " y: "+ str(self.player.vy) )
                 # self.walls.add(self.player)
             if tile_object.name== "wall":
                 self.walls.add(Obstacle(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width))
-                print("Spawning wall at x:" +str(tile_object.x) + " y: " + str(tile_object.y) + " h: " + str(tile_object.height) + " w: " + str(tile_object.width))
+                # print("Spawning wall at x:" +str(tile_object.x) + " y: " + str(tile_object.y) + " h: " + str(tile_object.height) + " w: " + str(tile_object.width))
             if tile_object.type=="NPC":
                 print("Spawning NPC " + tile_object.name)
                 npc_name= tile_object.name
-                self.npcs.append(NpcTemplate(self, tile_object.x, tile_object.y, npc_name.lower()))
-                self.walls.add(NpcTemplate(self, tile_object.x, tile_object.y, npc_name.lower()))
+                self.npcs.append(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width, npc_name.lower()))
+                self.walls.add(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width, npc_name.lower()))
                 # print("NPC Sprite " + str(new_npc.name) + ": " + str(new_npc.sprite))
                 # self.all_sprites.append(self.player)
         self.run()
@@ -107,17 +108,46 @@ class Game:
                 self.quit()
             elif event.type== pygame.KEYDOWN:
                 #  Check collision with NPCs?
-                collide=None
+
                 # I'm so tired of collision. -Danny
-                pos = self.player.image.get_rect()
+                posx = self.player.rect.x
+                posy = self.player.rect.y
+                # print(posx)
+
+                # for wall in self.walls:
+                #     if posx > wall.x and posx < wall.x + wall.width:
+                #         if posy > wall.y and posy < wall.y + wall.height:
+                #             self.collide=True
+                #             print("oi")
+                #             break
+                #     else:
+                #         self.collide=False
+                # if self.collide==False:
+                #     self.player.update(event)
+                # else:
+                #     pass
 
                 for wall in self.walls:
-                    if pos[0] > wall.x and pos[0] < wall.x + wall.width:
-                        if pos[1] > wall.y and pos[1] < wall.y + wall.height:
-                            print("?")
+                    if pygame.sprite.collide_rect(self.player, wall):
+                        self.collide= True
+                        # Back up
+                        if self.player.dir=="down":
+                            self.player.vy -= self.player.speed
+                            self.player.rect.y -= self.player.speed
+                        elif self.player.dir=="up":
+                            self.player.vy += self.player.speed
+                            self.player.rect.y += self.player.speed
+                        elif self.player.dir=="left":
+                            self.player.vx += self.player.speed
+                            self.player.rect.x += self.player.speed
+                        else:
+                            self.player.vx -= self.player.speed
+                            self.player.rect.x -= self.player.speed
                     else:
-                        self.player.update(event)
+                        self.collide= False
 
+                if self.collide== False:
+                    self.player.update(event)
                 # Key press event. Use this for pause later? Esc will also exit the game until we got a pause menu.
                 # print("Detected key press.")
                 if event.key == pygame.K_ESCAPE:

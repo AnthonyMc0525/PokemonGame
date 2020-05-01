@@ -12,8 +12,8 @@ import pytmx
 #
 # # ---- #
 #
-def collide_hit_rect(one, two):
-    return one.hit_rect.colliderect(two.rect)
+# def collide_hit_rect(one, two):
+#     return one.hit_rect.colliderect(two.rect)
 class TiledMap:
     def __init__(self, filename):
         tm = pytmx.load_pygame(filename, pixelalpha=True)
@@ -30,12 +30,12 @@ class TiledMap:
                     if tile:
                         surface.blit(tile, (x * self.tmxdata.tilewidth,
                                             y * self.tmxdata.tileheight))
-            if isinstance(layer, pytmx.TiledObjectGroup):
-                if layer.name == "collision":
-                    for obj in layer:
-                        if pygame.Rect(obj.x, obj.y, obj.width, obj.height).colliderect(block.rect) == True:
-                            print("Collide!")
-                            break
+            # if isinstance(layer, pytmx.TiledObjectGroup):
+            #     if layer.name == "collision":
+            #         for obj in layer:
+            #             if pygame.Rect(obj.x, obj.y, obj.width, obj.height).colliderect(block.rect) == True:
+            #                 print("Collide!")
+            #                 break
 
     def make_map(self):
         temp_surface = pg.Surface((self.width, self.height))

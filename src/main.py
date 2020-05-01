@@ -75,13 +75,14 @@ class Game:
                 print("Spawning player at x:" + str(self.player.vx) + " y: "+ str(self.player.vy) )
                 # self.walls.add(self.player)
             if tile_object.name== "wall":
-                self.walls.add(Obstacle(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width))
+                self.walls.add(Obstacle(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height))
+
                 # print("Spawning wall at x:" +str(tile_object.x) + " y: " + str(tile_object.y) + " h: " + str(tile_object.height) + " w: " + str(tile_object.width))
             if tile_object.type=="NPC":
                 print("Spawning NPC " + tile_object.name)
-                npc_name= tile_object.name
-                self.npcs.append(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width, npc_name.lower()))
+                npc_name= tile_object.__dict__['properties']['spawn_name']
                 self.walls.add(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width, npc_name.lower()))
+                self.npcs.append(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width, npc_name.lower()))
                 # print("NPC Sprite " + str(new_npc.name) + ": " + str(new_npc.sprite))
                 # self.all_sprites.append(self.player)
         self.run()
@@ -146,6 +147,7 @@ class Game:
                     else:
                         self.collide= False
 
+
                 if self.collide== False:
                     self.player.update(event)
                 # Key press event. Use this for pause later? Esc will also exit the game until we got a pause menu.
@@ -189,6 +191,8 @@ class Game:
             self.screen.blit(char.image, (char.vx, char.vy))
         self.screen.blit(self.player.image, (self.player.vx, self.player.vy))
 
+        # for wall in self.walls:
+        #     pygame.draw.rect(self.screen, RED, (wall.x, wall.y, wall.width, wall.height))
         #  Test for dialogue here for some reason? Draw dialogue here like it was commented before
 
 

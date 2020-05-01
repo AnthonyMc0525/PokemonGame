@@ -23,6 +23,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.width= w
         self.height= h
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self)

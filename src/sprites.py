@@ -7,7 +7,7 @@ from os import path
 from strings import *
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self)
         self.image= pygame.Surface((16,32), pygame.SRCALPHA)
         self.image.fill(BLACK)
@@ -42,9 +42,9 @@ class Player(pygame.sprite.Sprite):
         self.index= 0
         self.image = self.imagesdown[self.index]
         self.rect= self.image.get_rect()
-        self.vx=23 *16
-        self.vy=9 *16
-        self.speed=5
+        self.vx=x
+        self.vy=y
+        self.speed=4
         self.dir="down"
 
     def quit(self):

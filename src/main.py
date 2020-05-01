@@ -39,6 +39,7 @@ class Game:
         self.all_sprites= []
         self.npcs=[]
         self.collide=False
+        self.dialogue=None # No dialogue by default
         self.pressed= pygame.key.get_pressed()
         self.walls= pygame.sprite.Group()
         self.all_sprites.append(self.player.rect)
@@ -81,8 +82,9 @@ class Game:
             if tile_object.type=="NPC":
                 print("Spawning NPC " + tile_object.name)
                 npc_name= tile_object.__dict__['properties']['spawn_name']
-                self.walls.add(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width, npc_name.lower()))
-                self.npcs.append(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width, npc_name.lower()))
+                npc_dialogue= tile_object.__dict__['properties']['dialogue']
+                self.walls.add(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width, npc_name.lower(), npc_dialogue))
+                self.npcs.append(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width, npc_name.lower(), npc_dialogue))
                 # print("NPC Sprite " + str(new_npc.name) + ": " + str(new_npc.sprite))
                 # self.all_sprites.append(self.player)
         self.run()
@@ -108,26 +110,6 @@ class Game:
                 print("Bye bye...")
                 self.quit()
             elif event.type== pygame.KEYDOWN:
-                #  Check collision with NPCs?
-
-                # I'm so tired of collision. -Danny
-                posx = self.player.rect.x
-                posy = self.player.rect.y
-                # print(posx)
-
-                # for wall in self.walls:
-                #     if posx > wall.x and posx < wall.x + wall.width:
-                #         if posy > wall.y and posy < wall.y + wall.height:
-                #             self.collide=True
-                #             print("oi")
-                #             break
-                #     else:
-                #         self.collide=False
-                # if self.collide==False:
-                #     self.player.update(event)
-                # else:
-                #     pass
-
                 for wall in self.walls:
                     if pygame.sprite.collide_rect(self.player, wall):
                         self.collide= True
@@ -146,18 +128,16 @@ class Game:
                             self.player.rect.x -= self.player.speed
                     else:
                         self.collide= False
-
-
                 if self.collide== False:
                     self.player.update(event)
-                # Key press event. Use this for pause later? Esc will also exit the game until we got a pause menu.
-                # print("Detected key press.")
                 if event.key == pygame.K_ESCAPE:
                     print("See ya!")
                     self.quit()
                 elif event.key == pygame.K_SPACE:
-                    print("AAAAAA")
-                    pygame.draw.rect(self.screen, BLACK, (10, 10, 50, 50))
+                    # print(self.walls)
+                    if self.collide==True:
+                        print("Dialogue here!")
+                    # pygame.draw.rect(self.screen, BLACK, (10, 10, 50, 50))
                     # self.player.dialogue(event, "TEST TEXT")
 
 

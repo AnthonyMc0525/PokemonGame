@@ -66,7 +66,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.imagesdown[self.index]
         # self.rect= self.image.get_rect()
         self.speed=4
-        self.dir="down"
+        self.dir="up"
 
     def quit(self):
         pygame.quit()

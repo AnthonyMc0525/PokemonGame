@@ -38,13 +38,17 @@ class Game:
         self.player= Player(self, 0, 0)
         self.all_sprites= []
         self.npcs=[]
+        self.npc_group= pygame.sprite.Group()
+        self.teleport_group= pygame.sprite.Group()
         self.collide=False
-        self.dialogue=None # No dialogue by default
+        self.dialogue="" # No dialogue by default
+        self.interactable=False # Making this ambiguous. But this is a switch to test if NPCs are able to be interacted with.
+        self.interacting= False # This is a switch for if the player is currently talking. If they're talking, no moving around.
         self.pressed= pygame.key.get_pressed()
         self.walls= pygame.sprite.Group()
         self.all_sprites.append(self.player.rect)
         print("Player rect: " + str(self.player.rect))
-        print("Initialised game.")
+
 
 
     def make_map(self):
@@ -68,25 +72,23 @@ class Game:
         print("Image folder: "+ img_folder)
 
     def new(self):
-        # self.walls= pygame.sprite.Group()
         for tile_object in self.map.tmxdata.objects:
             if tile_object.name=="player":
                 # Player spawn point in the map.
                 self.player= Player(self, tile_object.x, tile_object.y)
                 print("Spawning player at x:" + str(self.player.vx) + " y: "+ str(self.player.vy) )
-                # self.walls.add(self.player)
-            if tile_object.name== "wall":
+            if tile_object.type== "wall":
                 self.walls.add(Obstacle(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height))
-
-                # print("Spawning wall at x:" +str(tile_object.x) + " y: " + str(tile_object.y) + " h: " + str(tile_object.height) + " w: " + str(tile_object.width))
             if tile_object.type=="NPC":
                 print("Spawning NPC " + tile_object.name)
                 npc_name= tile_object.__dict__['properties']['spawn_name']
                 npc_dialogue= tile_object.__dict__['properties']['dialogue']
-                self.walls.add(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width, npc_name.lower(), npc_dialogue))
-                self.npcs.append(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.height, tile_object.width, npc_name.lower(), npc_dialogue))
-                # print("NPC Sprite " + str(new_npc.name) + ": " + str(new_npc.sprite))
-                # self.all_sprites.append(self.player)
+                # to generate images...
+
+                # game, x, y, w, h, name, sprite, dialog
+                self.npcs.append(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height, tile_object.name, npc_name.lower(), npc_dialogue))
+                # To test collision.
+                self.npc_group.add(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height, tile_object.name, npc_name.lower(), npc_dialogue))
         self.run()
 
 
@@ -98,10 +100,22 @@ class Game:
         self.playing= True
         while self.playing:
             self.dt= self.clock.tick(FPS)/ 1000.0
-            self.events()
             self.update()
             self.draw()
+            self.events()
 
+    def dial (self, dial):
+        print("Dialogue: " +dial)
+        blackBarRectPos = (5, self.screen.get_width()-110) # For now.
+        blackBarRectSize= (self.screen.get_width()-10, 100)
+        pygame.draw.rect(self.screen, BLACK, pygame.Rect(blackBarRectPos, blackBarRectSize))
+        font = pygame.font.Font('freesansbold.ttf', 14)
+        text = font.render(dial, True, WHITE, BLACK)
+        textRect = text.get_rect()
+        X = self.screen.get_width()
+        Y = self.screen.get_height() + 375
+        textRect.center = (X // 2, Y // 2)
+        self.screen.blit(text, textRect)
 
     def events(self):
         # catch all basic events here.
@@ -110,6 +124,30 @@ class Game:
                 print("Bye bye...")
                 self.quit()
             elif event.type== pygame.KEYDOWN:
+                for npc in self.npc_group:
+                              if pygame.sprite.collide_rect(self.player, npc):
+                                  self.collide= True
+                                  if isinstance(npc, NpcTemplate):
+                                      # We can do dialogue events here!!
+                                      PLAY_DIALOGUE= pygame.USEREVENT + 5
+                                      pygame.time.set_timer(PLAY_DIALOGUE, 1000)
+                                      self.dialogue= npc.dialog
+                                      print(self.dialogue)
+                                  # Back up
+                                  if self.player.dir=="down":
+                                      self.player.vy -= self.player.speed
+                                      self.player.rect.y -= self.player.speed
+                                  elif self.player.dir=="up":
+                                      self.player.vy += self.player.speed
+                                      self.player.rect.y += self.player.speed
+                                  elif self.player.dir=="left":
+                                      self.player.vx += self.player.speed
+                                      self.player.rect.x += self.player.speed
+                                  else:
+                                      self.player.vx -= self.player.speed
+                                      self.player.rect.x -= self.player.speed
+                              else:
+                                  self.collide= False
                 for wall in self.walls:
                     if pygame.sprite.collide_rect(self.player, wall):
                         self.collide= True
@@ -128,15 +166,21 @@ class Game:
                             self.player.rect.x -= self.player.speed
                     else:
                         self.collide= False
+                        self.interactable=False
+                        self.dialogue=""
                 if self.collide== False:
-                    self.player.update(event)
+                    if self.interacting==False:
+                        self.player.update(event)
                 if event.key == pygame.K_ESCAPE:
                     print("See ya!")
                     self.quit()
                 elif event.key == pygame.K_SPACE:
-                    # print(self.walls)
-                    if self.collide==True:
-                        print("Dialogue here!")
+                    try:
+                        if event== PLAY_DIALOGUE:
+                            self.dial(self.dialogue)
+
+                    except:
+                        pass
                     # pygame.draw.rect(self.screen, BLACK, (10, 10, 50, 50))
                     # self.player.dialogue(event, "TEST TEXT")
 
@@ -149,20 +193,6 @@ class Game:
         pass
 
 
-    def dialogue (self, dial):
-        screen= self.screen
-
-        blackBarRectPos = (5, screen.get_width()-110) # For now.
-        blackBarRectSize= (screen.get_width()-10, 100)
-        pygame.draw.rect(screen, BLACK, pygame.Rect(blackBarRectPos, blackBarRectSize))
-        font = pygame.font.Font('freesansbold.ttf', 12)
-        text = font.render(dial, True, WHITE, BLACK)
-        textRect = text.get_rect()
-        X = screen.get_width()
-        Y = screen.get_height() + 375
-        textRect.center = (X // 2, Y // 2)
-        screen.blit(text, textRect)
-
     def draw(self):
         size= [self.width,self.height]
         screen= pygame.display.set_mode(size)
@@ -171,16 +201,10 @@ class Game:
             self.screen.blit(char.image, (char.vx, char.vy))
         self.screen.blit(self.player.image, (self.player.vx, self.player.vy))
 
-        # for wall in self.walls:
-        #     pygame.draw.rect(self.screen, RED, (wall.x, wall.y, wall.width, wall.height))
         #  Test for dialogue here for some reason? Draw dialogue here like it was commented before
 
-
-        # self.dialogue('Hello World')
         # pygame.draw.rect(self.screen, BLACK, (0, SCREEN_HEIGHT/6, SCREEN_WIDTH, SCREEN_HEIGHT/6))
-
-        # Draw dialogue??
-
+        # self.dial("Hello World!")
         # Limit to 60 fps
         clock= pygame.time.Clock()
         clock.tick(FPS)

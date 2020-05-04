@@ -7,10 +7,11 @@ from strings import *
 size= [SCREEN_WIDTH, SCREEN_HEIGHT]
 screen= pygame.display.set_mode(size)
 
-default_sprite= pygame.image.load(path.join(game_folder, 'assets/images/trainer_f.png')).convert_alpha()
+# default_sprite= pygame.image.load(path.join(game_folder, 'assets/images/trainer_f.png')).convert_alpha()
 class NpcTemplate(pygame.sprite.Sprite):
-    def __init__(self, game, x, y, w, h, name, sprite=default_sprite, dialog='Hello'):
-        pygame.sprite.Sprite.__init__(self)
+    def __init__(self, game, x, y, w, h, name, sprite, dialog):
+        self.npc_group = pg.sprite.Group()
+        pygame.sprite.Sprite.__init__(self, self.npc_group)
         self.name = name
         self.game=game
         self.x=x
@@ -21,7 +22,7 @@ class NpcTemplate(pygame.sprite.Sprite):
         self.height= 32
         self.image= pygame.Surface((16,32), pygame.SRCALPHA)
         self.sprite = sprite
-        self.rect= self.image.get_rect()
+        self.rect= pygame.Rect(x,y,w,h)
         self.dialog = dialog
         self.font = pygame.font.SysFont(None, 25)
         default_sprite= pygame.image.load(path.join(game_folder, 'assets/images/'+ self.name+'_npc.png')).convert_alpha()

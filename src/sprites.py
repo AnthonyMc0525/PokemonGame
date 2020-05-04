@@ -75,7 +75,7 @@ class Player(pygame.sprite.Sprite):
     def update(self,event):
         # self.vx=0
         if event.type== pygame.KEYDOWN:
-            if event.key== pygame.K_LEFT:
+            if event.key== pygame.K_LEFT or event.key== pygame.K_a:
                 self.dir="left"
                 self.vx -= self.speed
                 self.rect.x -= self.speed
@@ -84,7 +84,7 @@ class Player(pygame.sprite.Sprite):
                     self.index=0
                 self.image= pygame.transform.flip(self.imagesleft[self.index], True, False)
 
-            elif event.key == pygame.K_RIGHT:
+            elif event.key == pygame.K_RIGHT or event.key== pygame.K_d:
                 self.dir="right"
                 self.vx += self.speed
                 self.rect.x += self.speed
@@ -93,7 +93,7 @@ class Player(pygame.sprite.Sprite):
                     self.index=0
                 self.image=self.imagesright[self.index]
 
-            elif event.key == pygame.K_UP:
+            elif event.key == pygame.K_UP or event.key== pygame.K_w:
                 self.dir="up"
                 self.vy -= self.speed
                 self.rect.y -= self.speed
@@ -101,7 +101,7 @@ class Player(pygame.sprite.Sprite):
                 if self.index >= len(self.imagesup):
                     self.index=0
                 self.image=self.imagesup[self.index]
-            elif event.key == pygame.K_DOWN:
+            elif event.key == pygame.K_DOWN or event.key== pygame.K_s:
                 self.dir="down"
                 self.vy += self.speed
                 self.rect.y += self.speed

@@ -44,10 +44,14 @@ class Game:
         self.dialogue="" # No dialogue by default
         self.interactable=False # Making this ambiguous. But this is a switch to test if NPCs are able to be interacted with.
         self.interacting= False # This is a switch for if the player is currently talking. If they're talking, no moving around.
+
+        self.talk_sprite= (0,0) # Will change co-ordinates as we move around.
         self.pressed= pygame.key.get_pressed()
         self.walls= pygame.sprite.Group()
         self.all_sprites.append(self.player.rect)
         print("Player rect: " + str(self.player.rect))
+        player_dialogue_enable = pygame.USEREVENT + 5
+        player_dialogue_disable = pygame.USEREVENT + 6
 
 
 
@@ -105,12 +109,15 @@ class Game:
             self.events()
 
     def dial (self, dial):
-        print("Dialogue: " +dial)
+        # print("Dialogue: " +dial)
+        game_folder = os.path.dirname(__file__)
+        assets_folder = os.path.join(game_folder, '../assets')
         blackBarRectPos = (5, self.screen.get_width()-110) # For now.
         blackBarRectSize= (self.screen.get_width()-10, 100)
-        pygame.draw.rect(self.screen, BLACK, pygame.Rect(blackBarRectPos, blackBarRectSize))
-        font = pygame.font.Font('freesansbold.ttf', 14)
-        text = font.render(dial, True, WHITE, BLACK)
+        pygame.draw.rect(self.screen, KINDA_BLACK, pygame.Rect(blackBarRectPos, blackBarRectSize))
+        # font = pygame.font.Font('freesansbold.ttf', 14)
+        font = pygame.font.Font(path.join(assets_folder, 'pixel_font.ttf'), 20)
+        text = font.render(dial, True, WHITE)
         textRect = text.get_rect()
         X = self.screen.get_width()
         Y = self.screen.get_height() + 375
@@ -120,6 +127,11 @@ class Game:
     def events(self):
         # catch all basic events here.
         for event in pygame.event.get():
+            try:
+                if event== player_dialogue_disable:
+                    self.interactable= False
+            except:
+                pass
             if event.type== pygame.QUIT:
                 print("Bye bye...")
                 self.quit()
@@ -129,10 +141,10 @@ class Game:
                                   self.collide= True
                                   if isinstance(npc, NpcTemplate):
                                       # We can do dialogue events here!!
-                                      PLAY_DIALOGUE= pygame.USEREVENT + 5
-                                      pygame.time.set_timer(PLAY_DIALOGUE, 1000)
+                                      self.interactable= True
                                       self.dialogue= npc.dialog
-                                      print(self.dialogue)
+                                      pygame.time.set_timer(player_dialogue_enable, 0)
+                                      pygame.time.set_timer(player_dialogue_disable, 2000)
                                   # Back up
                                   if self.player.dir=="down":
                                       self.player.vy -= self.player.speed
@@ -166,7 +178,7 @@ class Game:
                             self.player.rect.x -= self.player.speed
                     else:
                         self.collide= False
-                        self.interactable=False
+                        # self.interactable=False
                         self.dialogue=""
                 if self.collide== False:
                     if self.interacting==False:
@@ -175,14 +187,13 @@ class Game:
                     print("See ya!")
                     self.quit()
                 elif event.key == pygame.K_SPACE:
-                    try:
-                        if event== PLAY_DIALOGUE:
-                            self.dial(self.dialogue)
-
-                    except:
-                        pass
-                    # pygame.draw.rect(self.screen, BLACK, (10, 10, 50, 50))
-                    # self.player.dialogue(event, "TEST TEXT")
+                    if self.interactable== True:
+                        self.interacting= True
+                        self.interactable=False
+                    elif self.interacting== True:
+                        # They pressed space to cancel.
+                        self.interacting= False
+                        self.interactable= False
 
 
     def quit(self):
@@ -204,7 +215,8 @@ class Game:
         #  Test for dialogue here for some reason? Draw dialogue here like it was commented before
 
         # pygame.draw.rect(self.screen, BLACK, (0, SCREEN_HEIGHT/6, SCREEN_WIDTH, SCREEN_HEIGHT/6))
-        # self.dial("Hello World!")
+        if self.interacting== True:
+            self.dial(self.dialogue)
         # Limit to 60 fps
         clock= pygame.time.Clock()
         clock.tick(FPS)

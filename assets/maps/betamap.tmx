@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="35" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="35" height="35" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="42">
  <tileset firstgid="1" source="pokemon_tile.tsx"/>
  <layer id="1" name="BG_LAYER_1" width="35" height="35">
   <data encoding="csv">
@@ -81,10 +81,10 @@
  </layer>
  <layer id="2" name="FG_LAYER_1" width="35" height="35">
   <data encoding="csv">
-164,164,164,164,164,0,0,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,
-164,22,22,22,22,0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,164,
-164,62,62,62,62,0,0,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,164,
-164,102,102,102,102,0,0,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,164,
+164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,
+164,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,164,
+164,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,62,164,
+164,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,102,164,
 164,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,164,
 164,164,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,164,
 164,164,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,81,81,81,81,81,81,0,0,0,0,0,94,0,0,164,164,
@@ -157,4 +157,51 @@
 3,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3
 </data>
  </layer>
+ <objectgroup id="5" name="obstacles">
+  <object id="1" name="wall" type="wall" x="0" y="0" width="560" height="64"/>
+  <object id="2" name="wall" type="wall" x="0" y="64" width="16" height="496"/>
+  <object id="3" name="wall" type="wall" x="16" y="80" width="16" height="176"/>
+  <object id="4" name="wall" type="wall" x="16" y="352" width="16" height="128"/>
+  <object id="5" name="wall" x="0" y="496" width="32" height="64"/>
+  <object id="6" name="wall" type="wall" x="304" y="80" width="96" height="64"/>
+  <object id="7" name="wall" x="32" y="512" width="16" height="48"/>
+  <object id="8" name="wall" type="wall" x="48" y="528" width="16" height="32"/>
+  <object id="9" name="wall" type="wall" x="64" y="544" width="496" height="16"/>
+  <object id="10" name="wall" type="wall" x="112" y="528" width="96" height="16"/>
+  <object id="11" name="wall" type="wall" x="240" y="528" width="128" height="16"/>
+  <object id="12" name="wall" type="wall" x="496" y="512" width="64" height="32"/>
+  <object id="13" name="wall" type="wall" x="480" y="528" width="16" height="16"/>
+  <object id="14" name="wall" type="wall" x="512" y="496" width="48" height="16"/>
+  <object id="15" name="wall" type="wall" x="544" y="64" width="16" height="432"/>
+  <object id="16" name="wall" type="wall" x="528" y="96" width="16" height="400"/>
+  <object id="17" name="wall" type="wall" x="512" y="176" width="16" height="128"/>
+  <object id="18" name="wall" type="wall" x="496" y="224" width="16" height="80"/>
+  <object id="19" name="wall" type="wall" x="256" y="256" width="32" height="64"/>
+  <object id="20" name="wall" type="wall" x="240" y="256" width="64" height="32"/>
+  <object id="21" name="wall" type="wall" x="416" y="464" width="32" height="64"/>
+  <object id="22" name="wall" type="wall" x="400" y="464" width="64" height="32"/>
+  <object id="23" name="wall" type="wall" x="48" y="64" width="32" height="32"/>
+  <object id="24" name="wall" type="wall" x="272" y="448" width="32" height="48"/>
+  <object id="25" name="wall" type="wall" x="432" y="336" width="32" height="48"/>
+  <object id="26" name="wall" type="wall" x="112" y="384" width="128" height="64"/>
+  <object id="27" name="wall" type="wall" x="144" y="368" width="80" height="96"/>
+  <object id="28" name="wall" type="wall" x="128" y="448" width="16" height="16"/>
+  <object id="29" name="wall" type="wall" x="160" y="352" width="32" height="16"/>
+  <object id="30" name="wall" type="wall" x="480" y="64" width="32" height="48"/>
+  <object id="31" name="wall" type="wall" x="112" y="112" width="16" height="16"/>
+  <object id="32" name="wall" type="wall" x="80" y="336" width="16" height="16"/>
+  <object id="33" name="wall" type="wall" x="416" y="224" width="16" height="16"/>
+  <object id="34" name="wall" type="wall" x="96" y="320" width="32" height="48"/>
+  <object id="35" name="wall" type="wall" x="128" y="320" width="16" height="32"/>
+  <object id="36" name="wall" type="wall" x="144" y="240" width="16" height="32"/>
+  <object id="37" name="wall" type="wall" x="80" y="224" width="64" height="64"/>
+  <object id="38" name="wall" type="wall" x="64" y="288" width="64" height="16"/>
+  <object id="39" name="wall" type="wall" x="48" y="240" width="32" height="48"/>
+  <object id="40" name="player" x="368" y="176" width="16" height="32"/>
+  <object id="41" name="to_gym" type="teleport" x="368" y="144" width="16" height="16">
+   <properties>
+    <property name="to" value="gym"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

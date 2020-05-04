@@ -1,3 +1,5 @@
+# strings.py
+
 import pygame as pygame
 from tiledmap import *
 
@@ -8,6 +10,7 @@ FPS=30
 
 # Colours
 BLACK= (0,0,0)
+KINDA_BLACK=(36,36,36)
 WHITE= (255,255,255)
 RED=(255,0,0)
 ORANGE=(255,128,0)
@@ -18,10 +21,16 @@ PURPLE= (192,0,192)
 PINK= (255, 0, 255)
 
 # Names
-GAME_NAME="Pokémon Game"
+GAME_NAME="Pokémon Opal" # Why not, pretty gem
 NPC_ANT="Anthony"
 # Spell it right
 NPC_DOM= "Dominik"
 NPC_DAN= "Danny"
 # Spell it wrong
 NPC_BRI= "Brain"
+
+#  Map Boundaries
+MAX_RIGHT= 538
+MAX_DOWN= 529
+MAX_UP= -1
+MAX_LEFT= 3

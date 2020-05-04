@@ -1,0 +1,38 @@
+self.dialogue= wall.dialog
+print(wall.dialog)
+PLAY_DIALOGUE= pygame.USEREVENT + 5
+pygame.time.set_timer(PLAY_DIALOGUE, 0, True)
+
+try:
+    if event== PLAYER_MOVE:
+        # Do stuff, like the dialogue function!
+
+except:
+    pass
+
+
+
+
+    for npc in self.npc_group:
+                  if pygame.sprite.collide_rect(self.player, npc):
+                      self.collide= True
+                      if isinstance(npc, Obstacle):
+                          print("Hit a wall.")
+                      elif isinstance(npc, NpcTemplate):
+                          #  Do dialogue here.
+                          print("Hit a person.")
+                      # Back up
+                      if self.player.dir=="down":
+                          self.player.vy -= self.player.speed
+                          self.player.rect.y -= self.player.speed
+                      elif self.player.dir=="up":
+                          self.player.vy += self.player.speed
+                          self.player.rect.y += self.player.speed
+                      elif self.player.dir=="left":
+                          self.player.vx += self.player.speed
+                          self.player.rect.x += self.player.speed
+                      else:
+                          self.player.vx -= self.player.speed
+                          self.player.rect.x -= self.player.speed
+                  else:
+                      self.collide= False

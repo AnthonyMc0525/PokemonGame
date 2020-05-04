@@ -22,6 +22,8 @@ from battleTypeNpc import *
 #
 map_x=0
 map_y=0
+player_dialogue_enable = pygame.USEREVENT + 1
+player_dialogue_disable = pygame.USEREVENT + 2
 #
 class Game:
 #
@@ -50,8 +52,7 @@ class Game:
         self.walls= pygame.sprite.Group()
         self.all_sprites.append(self.player.rect)
         print("Player rect: " + str(self.player.rect))
-        player_dialogue_enable = pygame.USEREVENT + 5
-        player_dialogue_disable = pygame.USEREVENT + 6
+
 
 
 
@@ -63,7 +64,7 @@ class Game:
     def load_data(self):
         game_folder = os.path.dirname(__file__)
         map_folder = os.path.join(game_folder, '../assets/maps')
-        self.map= TiledMap(os.path.join(map_folder, 'gym.tmx'))
+        self.map= TiledMap(os.path.join(map_folder, 'arena.tmx'))
         self.height = self.map.height
         self.width = self.map.width
         self.map_img = self.map.make_map()
@@ -93,6 +94,9 @@ class Game:
                 self.npcs.append(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height, tile_object.name, npc_name.lower(), npc_dialogue))
                 # To test collision.
                 self.npc_group.add(NpcTemplate(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height, tile_object.name, npc_name.lower(), npc_dialogue))
+            if tile_object.type=="teleport":
+                map_name= tile_object.__dict__['properties']['to']
+                self.teleport_group.add(Teleport(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height, map_name))
         self.run()
 
 
@@ -116,13 +120,31 @@ class Game:
         blackBarRectSize= (self.screen.get_width()-10, 100)
         pygame.draw.rect(self.screen, KINDA_BLACK, pygame.Rect(blackBarRectPos, blackBarRectSize))
         # font = pygame.font.Font('freesansbold.ttf', 14)
-        font = pygame.font.Font(path.join(assets_folder, 'pixel_font.ttf'), 20)
-        text = font.render(dial, True, WHITE)
-        textRect = text.get_rect()
+        font = pygame.font.Font(path.join(assets_folder, 'pixelmix.ttf'), 12)
+        if isinstance(dial, str):
+            try:
+                str_arr1=dial.split("%")
+            except:
+                # Might not have any new window delimiters.
+                str_arr1=dial
+            for index, s in enumerate(str_arr1):
+              str_arr1[index] = s.split("|")
+            self.dialogue= str_arr1
+            dial= str_arr1
         X = self.screen.get_width()
         Y = self.screen.get_height() + 375
-        textRect.center = (X // 2, Y // 2)
-        self.screen.blit(text, textRect)
+        counter=Y
+
+        for index, s in enumerate(dial[0]):
+            text = font.render(dial[0][index], True, WHITE)
+            textRect = text.get_rect()
+            textRect.center = (X // 2, counter // 2)
+            self.screen.blit(text, textRect)
+            counter += 40
+            # print(str_arr1[0][index])
+        # text = font.render(dial, True, WHITE)
+        speech_bubble= pygame.image.load(path.join(game_folder, '../assets/images/talk_bubble.png')).convert_alpha()
+        self.screen.blit(speech_bubble, self.talk_sprite)
 
     def events(self):
         # catch all basic events here.
@@ -130,12 +152,17 @@ class Game:
             try:
                 if event== player_dialogue_disable:
                     self.interactable= False
+                    self.dialogue=[]
             except:
                 pass
             if event.type== pygame.QUIT:
                 print("Bye bye...")
                 self.quit()
             elif event.type== pygame.KEYDOWN:
+                for tele in self.teleport_group:
+                              if pygame.sprite.collide_rect(self.player, tele):
+                                  pass
+                                  # For another time maybe.
                 for npc in self.npc_group:
                               if pygame.sprite.collide_rect(self.player, npc):
                                   self.collide= True
@@ -143,6 +170,7 @@ class Game:
                                       # We can do dialogue events here!!
                                       self.interactable= True
                                       self.dialogue= npc.dialog
+                                      self.talk_sprite= (npc.x, npc.y - 16)
                                       pygame.time.set_timer(player_dialogue_enable, 0)
                                       pygame.time.set_timer(player_dialogue_disable, 2000)
                                   # Back up
@@ -178,8 +206,7 @@ class Game:
                             self.player.rect.x -= self.player.speed
                     else:
                         self.collide= False
-                        # self.interactable=False
-                        self.dialogue=""
+
                 if self.collide== False:
                     if self.interacting==False:
                         self.player.update(event)
@@ -191,9 +218,13 @@ class Game:
                         self.interacting= True
                         self.interactable=False
                     elif self.interacting== True:
-                        # They pressed space to cancel.
-                        self.interacting= False
-                        self.interactable= False
+                        # They pressed space to continue or cancel.
+                        # print(len(self.dialogue))
+                        if (len(self.dialogue)) > 1:
+                            self.dialogue.pop(0)
+                        else:
+                            self.interacting= False
+                            self.interactable= False
 
 
     def quit(self):
@@ -211,7 +242,15 @@ class Game:
         for char in self.npcs:
             self.screen.blit(char.image, (char.vx, char.vy))
         self.screen.blit(self.player.image, (self.player.vx, self.player.vy))
-
+        #  Lighting!
+        game_folder = os.path.dirname(__file__)
+        img_folder = os.path.join(game_folder, '../assets/images')
+        light=pygame.image.load(path.join(img_folder, 'circle.png'))
+        filter = pygame.surface.Surface(size)
+        # filter.fill(pygame.color.Color('Grey'))
+        filter.fill(pygame.color.Color(120,128,132))
+        filter.blit(light, (self.player.vx-56, self.player.vy-40))
+        screen.blit(filter, (0, 0), special_flags=pygame.BLEND_RGBA_SUB)
         #  Test for dialogue here for some reason? Draw dialogue here like it was commented before
 
         # pygame.draw.rect(self.screen, BLACK, (0, SCREEN_HEIGHT/6, SCREEN_WIDTH, SCREEN_HEIGHT/6))

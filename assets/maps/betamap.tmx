@@ -197,7 +197,7 @@
   <object id="37" name="wall" type="wall" x="80" y="224" width="64" height="64"/>
   <object id="38" name="wall" type="wall" x="64" y="288" width="64" height="16"/>
   <object id="39" name="wall" type="wall" x="48" y="240" width="32" height="48"/>
-  <object id="40" name="player" x="352" y="160" width="16" height="32"/>
+  <object id="40" name="player" x="368" y="176" width="16" height="32"/>
   <object id="41" name="to_gym" type="teleport" x="368" y="144" width="16" height="16">
    <properties>
     <property name="to" value="gym"/>

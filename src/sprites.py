@@ -7,6 +7,12 @@ from os import path
 
 from strings import *
 
+class Teleport(pygame.sprite.Sprite):
+    def __init__(self, game, x,y,w,h,map_name):
+        pygame.sprite.Sprite.__init__(self)
+        self.rect= pygame.Rect(x,y,w,h)
+        self.map_name= map_name
+
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, game, x,y,w,h):
         self.walls = pg.sprite.Group()

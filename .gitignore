@@ -1,2 +1,8 @@
 venv/*
 src/__pycache__/*
+src/items/__pycache__/*
+src/moves/__pycache__/*
+src/pokemon/__pycache__/*
+src/moves/fire/__pycache__/*
+src/moves/grass/__pycache__/*
+src/moves/water/__pycache__/*

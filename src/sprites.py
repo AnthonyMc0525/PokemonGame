@@ -89,7 +89,6 @@ class Player(pygame.sprite.Sprite):
                 if self.index >= len(self.imagesleft):
                     self.index=0
                 self.image= pygame.transform.flip(self.imagesleft[self.index], True, False)
-
             elif event.key == pygame.K_RIGHT or event.key== pygame.K_d:
                 self.dir="right"
                 self.vx += self.speed

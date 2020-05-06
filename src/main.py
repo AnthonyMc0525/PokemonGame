@@ -16,12 +16,15 @@ from strings import *
 from tiledmap import *
 # from player import *
 from sprites import *
+from battle import *
 from npcTemplate import *
 from battleTypeNpc import *
 # --- #
 #
 map_x=0
 map_y=0
+pygame.mixer.init()
+battleMusic = pygame.mixer.Sound("sounds/battle.wav")
 player_dialogue_enable = pygame.USEREVENT + 1
 player_dialogue_disable = pygame.USEREVENT + 2
 #
@@ -51,7 +54,60 @@ class Game:
         self.pressed= pygame.key.get_pressed()
         self.walls= pygame.sprite.Group()
         self.all_sprites.append(self.player.rect)
+        self.battling= False
+        #self.music= pygame.mixer.music.load("sounds/idle.wav")
+        # self.all_sprites= pygame.sprite.Group()
+        print("Initialised game.")
         print("Player rect: " + str(self.player.rect))
+
+
+
+    def game_intro(self, screen):
+        intro = True
+        screen.fill(WHITE)
+        font = pygame.font.Font('freesansbold.ttf',115)
+        textSurface = font.render("Start", True, BLACK)
+        textRect_start = textSurface.get_rect()
+        textRect_start.center = (350, 500)
+        screen.blit(textSurface, textRect_start)
+        width = textRect_start.width
+        height = textRect_start.height
+        x = 350 - width/2
+        y = 500 - height/2
+
+        small_font = pygame.font.Font('freesansbold.ttf', 30)
+        instructions = "When in the game, press 'b' to enter a"
+        textSurf = small_font.render(instructions, True, BLACK)
+        tRect = textSurf.get_rect()
+        tRect.center = (350, 200)
+        screen.blit(textSurf, tRect)
+
+        instructions = "battle with random pokemon and moves."
+        textSurf2 = small_font.render(instructions, True, BLACK)
+        tRect2 = textSurf2.get_rect()
+        tRect2.center = (350, 250)
+        screen.blit(textSurf2, tRect2)
+
+        instructions = "You will be the pokemon on the left."
+        textSurf3 = small_font.render(instructions, True, BLACK)
+        tRect3 = textSurf3.get_rect()
+        tRect3.center = (350, 300)
+        screen.blit(textSurf3, tRect3)
+        pygame.display.update()
+        self.clock.tick(FPS)
+        while intro:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                elif event.type == MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    if pos[0] > x and pos[0] < x + width:
+                        if pos[1] > y and pos[1] < y + height:
+                            self.new()
+                            self.run() 
+
+
 
 
 
@@ -104,12 +160,14 @@ class Game:
         pass
 
     def run(self):
+        # pygame.mixer.music.play(-1)
         print("Game is running...")
         self.playing= True
         while self.playing:
             self.dt= self.clock.tick(FPS)/ 1000.0
             self.update()
             self.draw()
+            # self.player.update()
             self.events()
 
     def dial (self, dial):
@@ -147,7 +205,7 @@ class Game:
         self.screen.blit(speech_bubble, self.talk_sprite)
 
     def events(self):
-        # catch all basic events here.
+              # catch all basic events here.
         for event in pygame.event.get():
             try:
                 if event== player_dialogue_disable:
@@ -225,7 +283,101 @@ class Game:
                         else:
                             self.interacting= False
                             self.interactable= False
+                elif event.key == pygame.K_b:
+                    if self.battling== False:
+                        pygame.mixer.music.fadeout(1000)
+                        print("'b' key pressed")
+                        batt= Battle(self)
+                        batt.main()
 
+#        # catch all basic events here.
+#        for event in pygame.event.get():
+#            try:
+#                if event== player_dialogue_disable:
+#                    self.interactable= False
+#                    self.dialogue=[]
+#            except:
+#                pass
+#            if event.type== pygame.QUIT:
+#                print("Bye bye...")
+#                self.quit()
+#            elif event.type== pygame.KEYDOWN:
+#                for tele in self.teleport_group:
+#                              if pygame.sprite.collide_rect(self.player, tele):
+#                                  pass
+#                                  # For another time maybe.
+#                for npc in self.npc_group:
+#                              if pygame.sprite.collide_rect(self.player, npc):
+#                                  self.collide= True
+#                                  if isinstance(npc, NpcTemplate):
+#                                      # We can do dialogue events here!!
+#                                      self.interactable= True
+#                                      self.dialogue= npc.dialog
+#                                      self.talk_sprite= (npc.x, npc.y - 16)
+#                                      pygame.time.set_timer(player_dialogue_enable, 0)
+#                                      pygame.time.set_timer(player_dialogue_disable, 2000)
+#                                  # Back up
+#                                  if self.player.dir=="down":
+#                                      self.player.vy -= self.player.speed
+#                                      self.player.rect.y -= self.player.speed
+#                                  elif self.player.dir=="up":
+#                                      self.player.vy += self.player.speed
+#                                      self.player.rect.y += self.player.speed
+#                                  elif self.player.dir=="left":
+#                                      self.player.vx += self.player.speed
+#                                      self.player.rect.x += self.player.speed
+#                                  else:
+#                                      self.player.vx -= self.player.speed
+#                                      self.player.rect.x -= self.player.speed
+#                              else:
+#                                  self.collide= False
+#                for wall in self.walls:
+#                    if pygame.sprite.collide_rect(self.player, wall):
+#                        self.collide= True
+#                        # Back up
+#                        if self.player.dir=="down":
+#                            self.player.vy -= self.player.speed
+#                            self.player.rect.y -= self.player.speed
+#                        elif self.player.dir=="up":
+#                            self.player.vy += self.player.speed
+#                            self.player.rect.y += self.player.speed
+#                        elif self.player.dir=="left":
+#                            self.player.vx += self.player.speed
+#                            self.player.rect.x += self.player.speed
+#                        else:
+#                            self.player.vx -= self.player.speed
+#                            self.player.rect.x -= self.player.speed
+#                    else:
+#                        self.collide= False
+#
+#                if self.collide== False:
+#                    if self.interacting==False:
+#                        self.player.update(event)
+#                if event.key == pygame.K_ESCAPE:
+#                    print("See ya!")
+#                    self.quit()
+#                elif event.key == pygame.K_b:
+#                    if self.battling== False:
+#                        pygame.mixer.music.fadeout(1000)
+#                        print("'b' key pressed")
+#                        batt= Battle(self)
+#                        batt.main()
+#                else:
+#                    if self.battling== False:
+#                        self.player.update(event)
+#                if event.key == pygame.K_SPACE:
+#                    if self.interactable== True:
+#                        self.interacting= True
+#                        self.interactable=False
+#                    elif self.interacting== True:
+#                        # They pressed space to continue or cancel.
+#                        # print(len(self.dialogue))
+#                        if (len(self.dialogue)) > 1:
+#                            self.dialogue.pop(0)
+#                        else:
+#                            self.interacting= False
+#                            self.interactable= False
+#
 
     def quit(self):
         pygame.quit()
@@ -261,6 +413,48 @@ class Game:
         clock.tick(FPS)
         pygame.display.flip()
         #  blit the screen?
+#        if self.battling== False:
+#            size= [self.width,self.height]
+#            screen= pygame.display.set_mode(size)
+#            self.screen.blit(self.map_img, (0, 0))
+#            self.screen.blit(self.player.image, (self.player.vx, self.player.vy))
+#
+#            # pygame.draw.circle(self.screen, WHITE, [30, 30], 30)
+#            # Make a function to draw the player sprite here!!
+#            # if not self.all_sprites.has(self.player):
+#            #     self.player= Player()
+#            #     self.all_sprites.append(self.player)
+#            #     print("Spawned player?")
+#            # Limit to 60 fps
+#            clock= pygame.time.Clock()
+#            clock.tick(FPS)
+#            pygame.display.flip()
+#            #  blit the screen?
+#        size= [self.width,self.height]
+#        screen= pygame.display.set_mode(size)
+#        self.screen.blit(self.map_img, (0, 0))
+#        for char in self.npcs:
+#            self.screen.blit(char.image, (char.vx, char.vy))
+#        self.screen.blit(self.player.image, (self.player.vx, self.player.vy))
+#        #  Lighting!
+#        game_folder = os.path.dirname(__file__)
+#        img_folder = os.path.join(game_folder, '../assets/images')
+#        light=pygame.image.load(path.join(img_folder, 'circle.png'))
+#        filter = pygame.surface.Surface(size)
+#        # filter.fill(pygame.color.Color('Grey'))
+#        filter.fill(pygame.color.Color(120,128,132))
+#        filter.blit(light, (self.player.vx-56, self.player.vy-40))
+#        screen.blit(filter, (0, 0), special_flags=pygame.BLEND_RGBA_SUB)
+#        #  Test for dialogue here for some reason? Draw dialogue here like it was commented before
+#
+#        # pygame.draw.rect(self.screen, BLACK, (0, SCREEN_HEIGHT/6, SCREEN_WIDTH, SCREEN_HEIGHT/6))
+#        if self.interacting== True:
+#            self.dial(self.dialogue)
+#        # Limit to 60 fps
+#        clock= pygame.time.Clock()
+#        clock.tick(FPS)
+#        pygame.display.flip()
+#        #  blit the screen?
 
 
 
@@ -275,7 +469,13 @@ def main():
     size= [SCREEN_WIDTH, SCREEN_HEIGHT]
     screen= pygame.display.set_mode(size)
 
+#    while not done and not game.battling:
+#        game.game_intro(screen)
+#        game.new()
+#        game.run()
+
     while not done:
+        game.game_intro(screen)
         game.new()
         game.run()
     # If done, quit.

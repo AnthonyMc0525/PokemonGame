@@ -1,4 +1,5 @@
 import sys
+import os
 from os import path
 import pygame
 from random import randint
@@ -12,6 +13,8 @@ from moves.water import aquaTail, bubble, hydroPump, waterGun, waterPulse
 from strings import *
 from dialogue import *
 
+game_folder = os.path.dirname(__file__)
+assets_folder = os.path.join(game_folder, '../assets')
 
 class Battle():
     def __init__(self, game):
@@ -26,8 +29,8 @@ class Battle():
         self.button_no= self.button_list[0]
         self.player_move_names=[]
         self.enemy_move_names=[]
-        self.font= pygame.font.Font('freesansbold.ttf', 16)
-        self.big_font= pygame.font.Font('freesansbold.ttf', 24)
+        self.font = pygame.font.Font(path.join(assets_folder, 'pixelmix.ttf'), 12)
+        self.big_font = pygame.font.Font(path.join(assets_folder, 'pixelmix.ttf'), 20)
         # Remove later
         #self.player_poke.append(charizard.Charizard())
         #self.enemy_poke.append(meganium.Meganium())
@@ -464,7 +467,7 @@ class Battle():
 
 
         pygame.mixer.music.pause()
-        # pygame.mixer.Sound.play(self.music)
+        pygame.mixer.Sound.play(self.music)
         while self.done== False:
             self.draw(screen)
             self.events()

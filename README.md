@@ -4,7 +4,7 @@ Will be a pygames project.
 
 All original code in src folder.
 
-**For devs who work on the project:**
+**For both players and devs who play/work on the project:**
 
 Create a virtual environment in the top level of the project:
 `python3 -m venv ./venv`
@@ -17,8 +17,10 @@ To leave the virtual environment:
 
 In a virtual environment install pygame and pytmx:
 `pip3 install pygame`
-`pip install pytmx`
+`pip3 install pytmx`
+`pip3 install numpy`
 
+**For devs who work on the project:**
 
 To add a wall to a map, create an object layer in Tiled. It doesn't have to be named "obstacles", but doing so keeps everything uniform. draw your objects as needed, and make the name property and type property "wall".
 

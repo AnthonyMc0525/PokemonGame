@@ -104,6 +104,7 @@ class Game:
                     pos = pygame.mouse.get_pos()
                     if pos[0] > x and pos[0] < x + width:
                         if pos[1] > y and pos[1] < y + height:
+                            self.new()
                             self.run() 
 
 
@@ -474,6 +475,7 @@ def main():
 #        game.run()
 
     while not done:
+        game.game_intro(screen)
         game.new()
         game.run()
     # If done, quit.
